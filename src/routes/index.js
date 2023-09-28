@@ -2,20 +2,20 @@ const { Router } = require('express')
 
 const router = Router()
 
+router.get('/', (req, res) => {
+  return res.render('home')
+})
+
 router.get('/bienes', (req, res) => {
-  res.render('bienes')
+  return res.render('bienes/index')
 })
 
 router.get('/solicitudes', (req, res) => {
-  res.render('solicitudes')
+  return res.render('solicitudes/index')
 })
 
 router.get('/solicitudes/detalles', (req, res) => {
-  res.render('detalles_solicitudes')
-})
-
-router.get('/formulario', (req, res) => {
-  res.render('formulario')
+  return res.render('solicitudes/show')
 })
 
 module.exports = router
