@@ -1,4 +1,6 @@
 const { Router } = require('express')
+const bienesController = require('../controller/bienes')
+const solicitudesController = require('../controller/solicitudes')
 
 const router = Router()
 
@@ -6,16 +8,11 @@ router.get('/', (req, res) => {
   return res.render('home')
 })
 
-router.get('/bienes', (req, res) => {
-  return res.render('bienes/index')
-})
+router.get('/bienes', bienesController.index)
+router.get('/bienes/nuevo', bienesController.create)
+router.get('/bienes/:id', bienesController.show)
 
-router.get('/solicitudes', (req, res) => {
-  return res.render('solicitudes/index')
-})
-
-router.get('/solicitudes/detalles', (req, res) => {
-  return res.render('solicitudes/show')
-})
+router.get('/solicitudes', solicitudesController.index)
+router.get('/solicitudes/:id', solicitudesController.show)
 
 module.exports = router
