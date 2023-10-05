@@ -1,7 +1,6 @@
 {
   "name": "sistema_bienes",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node src",
@@ -22,5 +21,14 @@
     "eslint-plugin-n": "^16.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "nodemon": "^3.0.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Homer1020/bienes_proyectos..git"
+  },
+  "bugs": {
+    "url": "https://github.com/Homer1020/bienes_proyectos./issues"
+  },
+  "homepage": "https://github.com/Homer1020/bienes_proyectos.#readme",
+  "description": ""
 }

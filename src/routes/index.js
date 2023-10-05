@@ -13,6 +13,7 @@ router.get('/bienes/nuevo', bienesController.create)
 router.get('/bienes/:id', bienesController.show)
 
 router.get('/solicitudes', solicitudesController.index)
+router.get('/solicitudes/nuevo', solicitudesController.create)
 router.get('/solicitudes/:id', solicitudesController.show)
 
 module.exports = router
