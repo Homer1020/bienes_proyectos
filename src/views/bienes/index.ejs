@@ -1,9 +1,10 @@
 <%- include('../partials/header') %>
+<%- include('./inc/modal_create') %>
 <main class="container">
     <div class="d-flex justify-content-between align-items-center">
         <h1 class="h5 text-uppercase my-3">Bienes de la empresa</h1>
         <div>
-            <a href="/bienes/nuevo" class="btn btn-sm btn-primary">Agregar Bien</a>
+            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_create_bien">Agregar Bien</button>
         </div>
     </div>
     <table class="table">
@@ -27,3 +28,4 @@
         </tbody>
     </table>
 </main>
+<%- include('../partials/footer') %>
