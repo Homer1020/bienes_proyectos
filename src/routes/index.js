@@ -5,7 +5,9 @@ const solicitudesController = require('../controller/solicitudes')
 const router = Router()
 
 router.get('/', (req, res) => {
-  return res.render('home')
+  const countViews = req.session.count || 0
+  req.session.count = countViews + 1
+  return res.json(countViews)
 })
 
 router.get('/bienes', bienesController.index)
