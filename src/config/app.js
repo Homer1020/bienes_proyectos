@@ -1,5 +1,7 @@
 const express = require('express')
 const path = require('path')
+const session = require('express-session')
+const cookieParser = require('cookie-parser')
 
 const app = express()
 
@@ -9,6 +11,15 @@ app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, '../views'))
 
 // MIDDLEWARES
+app.use(cookieParser())
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    // secure: true
+  }
+}))
 app.use(express.static(path.join(__dirname, '../public')))
 app.use('/', require('../routes'))
 
