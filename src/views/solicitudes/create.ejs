@@ -7,5 +7,58 @@
         </div>
     </div>
     
-    </table>
+   <div class="solicitud_formularios">
+
+    <form action="/solicitudes/formulario" method="get">
+        <div class="solicitud_tipos mb-3">
+            <label for="tipo">Tipo de solicitud</label>
+            <select id="tipo"  name="tipo" class="form-select form-select-lg w-25" onchange="this.form.submit()">
+                <option value="">Selecciona una opción</option>
+                <option value="asignacion">Asignación</option>
+                <option value="translado">Translado</option>
+                <option value="reparacion">Reparación</option>
+            </select>
+        </div>
+    </form>
+    
+    <form class="mb-5" action="/solicitud" method="post">
+
+        <!-- <div class="solicitud_tipos mb-3">
+            <label for="tipo">Tipo de solicitud</label>
+            <select id="tipo"  name="tipo" class="form-select form-select-lg w-25" onchange="cambiarSolicitud()">
+                <option value="">Selecciona una opción</option>
+                <option value="asignacion">Asignación</option>
+                <option value="translado">Translado</option>
+                <option value="reparacion">Reparación</option>
+            </select>
+        </div> -->
+
+        <h3>Solicitud de <%= tipo %> </h3>
+
+        <div id="solicitud-form" class="mb-3">
+            <div class="mb-3">
+                <label for="codigo" class="form-label">Código del bien</label>
+                <input type="text" id="codigo" name="codigo" placeholder="CO-0001" class="form-control" required>
+            </div>
+                
+            <div class="mb-3">
+                <label for="gerencia" class="form-label">Código de la gerencia</label>
+                <input type="text" id="gerencia" name="gerencia" placeholder="G-123456" class="form-control" required>
+            </div>
+            
+            <% if (tipo === 'asignacion') { %>    
+                <%- include ('./solicitudes_formularios/asignacion') %>
+            <% } %>
+
+            <% if (tipo === 'translado') {%>
+                <%- include ('./solicitudes_formularios/translado') %>
+            <% } %>
+
+            <% if (tipo === 'reparacion') {%>
+                <%- include ('./solicitudes_formularios/reparacion') %>
+            <% } %>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+    </div>
 </main>

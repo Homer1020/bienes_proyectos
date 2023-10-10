@@ -10,5 +10,7 @@ exports.index = (req, res) => {
 
 // Renderiza formulario de creación de solicitud
 exports.create = (req, res) => {
-  return res.render('solicitudes/create')
+  const tipo = req.query.tipo ?? 'asignacion'
+
+  return res.render('solicitudes/create', { tipo })
 }
