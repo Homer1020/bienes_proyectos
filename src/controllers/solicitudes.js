@@ -1,3 +1,5 @@
+const db = require('../config/db')
+
 // Renderiza detalles de una solicitud
 exports.show = (req, res) => {
   return res.render('solicitudes/show')
@@ -9,8 +11,9 @@ exports.index = (req, res) => {
 }
 
 // Renderiza formulario de creación de solicitud
-exports.create = (req, res) => {
-  const tipo = req.query.tipo ?? 'asignacion'
+exports.create = async (req, res) => {
+  const tipo = req.query.tipo ?? 1
+  const q = await db.query('SELECT * FROM solicitud_tipo')
 
-  return res.render('solicitudes/create', { tipo })
+  return res.render('solicitudes/create', { tipo, tipo_solicitud: q.result })
 }

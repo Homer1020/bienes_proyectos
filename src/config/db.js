@@ -3,11 +3,11 @@ const mysql = require('mysql2')
 class Database {
   constructor () {
     this.connection = mysql.createConnection({
-      host: 'localhost',
-      port: 3306,
-      database: 'bienes_system',
-      user: 'root',
-      password: ''
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD
     })
   }
 
