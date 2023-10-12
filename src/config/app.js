@@ -3,7 +3,7 @@ const path = require('path')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
-const dotenv = require('dotenv').config()
+require('dotenv').config()
 
 const app = express()
 
