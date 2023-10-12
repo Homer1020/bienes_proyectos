@@ -17,12 +17,12 @@ CREATE TABLE IF NOT EXISTS `asignaciones` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_Asignaciones_Trabajador1_idx` (`trabajadores_id`) USING BTREE,
   KEY `fk_Asignaciones_Bienes1_idx` (`bienes_id`) USING BTREE,
-  CONSTRAINT `fk_Asignaciones_Bienes1` FOREIGN KEY (`bienes_id`) REFERENCES `bienes` (`idBien`),
+  CONSTRAINT `fk_Asignaciones_Bienes1` FOREIGN KEY (`bienes_id`) REFERENCES `bienes` (`id`),
   CONSTRAINT `fk_Asignaciones_Trabajador1` FOREIGN KEY (`trabajadores_id`) REFERENCES `trabajadores` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE IF NOT EXISTS `bienes` (
-  `idBien` int NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `codigo` varchar(45) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `fecha_ingreso` date NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `bienes` (
   `trabajadores_id` int NOT NULL,
   `categorias_id` int DEFAULT NULL,
   `sedes_id` int DEFAULT NULL,
-  PRIMARY KEY (`idBien`) USING BTREE,
+  PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `codigo_UNIQUE` (`codigo`),
   KEY `fk_Bienes_Estados_bien1_idx` (`estados_bien_id`) USING BTREE,
   KEY `fk_Bienes_Trabajador1_idx` (`trabajadores_id`) USING BTREE,
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `bienes_has_solicitudes` (
   PRIMARY KEY (`bienes_id`,`solicitudes_id`) USING BTREE,
   KEY `fk_Bienes_has_Solicitudes_Solicitudes1_idx` (`solicitudes_id`) USING BTREE,
   KEY `fk_Bienes_has_Solicitudes_Bienes1_idx` (`bienes_id`) USING BTREE,
-  CONSTRAINT `fk_Bienes_has_Solicitudes_Bienes1` FOREIGN KEY (`bienes_id`) REFERENCES `bienes` (`idBien`),
+  CONSTRAINT `fk_Bienes_has_Solicitudes_Bienes1` FOREIGN KEY (`bienes_id`) REFERENCES `bienes` (`id`),
   CONSTRAINT `fk_Bienes_has_Solicitudes_Solicitudes1` FOREIGN KEY (`solicitudes_id`) REFERENCES `solicitudes` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
