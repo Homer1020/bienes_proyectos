@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/bienes', bienesController.index)
-router.get('/bienes/nuevo', bienesController.create)
+router.post('/bienes/nuevo', bienesController.store)
 router.get('/bienes/:id', bienesController.show)
 
 router.get('/solicitudes', solicitudesController.index)

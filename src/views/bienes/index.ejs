@@ -1,6 +1,11 @@
 <%- include('../partials/header') %>
 <%- include('./inc/modal_create') %>
 <main class="container">
+    <% messages.forEach(message => {%>
+        <div class="alert alert-success mt-4">
+            <%= message %>
+        </div>
+    <%}) %>
     <div class="d-flex justify-content-between align-items-center">
         <h1 class="h5 text-uppercase my-3">Bienes de la empresa</h1>
         <div>
@@ -12,6 +17,7 @@
             <tr>
                 <th>Nombre</th>
                 <th>Código</th>
+                <th>Categoria</th>
                 <th>Gerencia</th>
                 <th>Ubicación</th>
                 <th>Fecha de ingreso</th>
@@ -19,11 +25,33 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td colspan="6">
-                    <div class="alert alert-info m-0">Aún no hay bienes registrados.</div>
-                </td>
-            </tr>
+            <% if (bienes.length) { %>
+                <% bienes.forEach(bien => {%>
+                    <tr>
+                        <td><%= bien.nombre %></td>
+                        <td><%= bien.codigo %></td>
+                        <td>
+                            <span class="badge bg-secondary">
+                                <%= bien.categoria %>
+                            </span>
+                        </td>
+                        <td><%= bien.trabajador %></td>
+                        <td><%= bien.ubicacion %></td>
+                        <td>
+                            <%= new Date(bien.fecha_ingreso).toLocaleDateString('es-vn', { weekday:"long", year:"numeric", month:"short", day:"numeric"}) %>
+                        </td>
+                        <td>
+                            <a href="" class="btn btn-danger btn-sm">Elimniar</a>
+                        </td>
+                    </tr>    
+                <%}) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="6">
+                        <div class="alert alert-info m-0">Aún no hay bienes registrados.</div>
+                    </td>
+                </tr>  
+            <% } %>
         </tbody>
     </table>
 </main>
