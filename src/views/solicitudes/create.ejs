@@ -9,47 +9,56 @@
     
    <div class="solicitud_formularios">
 
-    <form action="/solicitudes/formulario" method="get">
-        <div class="solicitud_tipos mb-3">
-            <label for="tipo">Tipo de solicitud</label>
-            <select id="tipo"  name="tipo" class="form-select form-select-lg w-25" onchange="this.form.submit()">
-                <option value="">Selecciona una opción</option>
-                <!-- Muestra las opciones traidas desde la bdd -->
-                <% tipo_solicitud.forEach(t => { %>
-                    <option value="<%- t.id %>" <%- tipo == t.id ? 'selected' : '' %>><%= t.tipo %></option>
-                <% }) %>
-            </select>
+        <div class="row">
+            <form class="col" action="/solicitudes/formulario" method="get">
+                <div class="solicitud_tipos mb-3">
+                    <label for="tipo">Tipo de solicitud</label>
+                    <select id="tipo"  name="tipo" class="form-select form-select-lg" onchange="this.form.submit()">
+                        <option value="">Selecciona una opción</option>
+                        <!-- Muestra las opciones traidas desde la bdd -->
+                        <% tipo_solicitud.forEach(t => { %>
+                            <option value="<%- t.id %>" <%- tipo == t.id ? 'selected' : '' %>><%= t.tipo %></option>
+                        <% }) %>
+                    </select>
+                </div>
+            </form>
+            
+            <form class="col" action="/solicitudes/formulario" method="get">
+                <div class="solicitud_tipos mb-3">
+                    <label for="departamento">Departamento</label>
+                    <select id="departamento"  name="departamento" class="form-select form-select-lg" onchange="this.form.submit()">
+                        <option value="">Selecciona un departamento</option>
+                        <!-- Muestra los departamentos de la empresa -->
+                        <% solicitud_departamento.forEach(dep => { %>
+                            <option value="<%- dep.id %>" <%- id_departamento == dep.id ? 'selected' : '' %>><%= dep.nombre %></option>
+                        <% }) %>
+                    </select>
+                </div>
+            </form>
         </div>
-    </form>
+        </form>
+    </div>
     
+    <h1 class="mb-4">Solicitud de <%= tipo_solicitud.find(t => t.id == tipo).tipo %> </h2>
+        
     <form class="mb-5" action="/solicitud" method="post">
 
-        <h3>Solicitud de <%= tipo_solicitud.find(t => t.id == tipo).tipo %> </h3>
-
         <div id="solicitud-form" class="mb-3">
-            <div class="mb-3">
-                <label for="codigo" class="form-label">Código del bien</label>
-                <input type="text" id="codigo" name="codigo" placeholder="CO-0001" class="form-control" required>
-            </div>
-                
-            <div class="mb-3">
-                <label for="gerencia" class="form-label">Código de la gerencia</label>
-                <input type="text" id="gerencia" name="gerencia" placeholder="G-123456" class="form-control" required>
-            </div>
             
             <% if (tipo == 1) { %>    
-                <%- include ('./solicitudes_formularios/asignacion') %>
+                <%- include ('./inc/form_asignacion') %>
             <% } %>
 
             <% if (tipo == 2) {%>
-                <%- include ('./solicitudes_formularios/traslado') %>
+                <%- include ('./inc/form_traslado') %>
             <% } %>
 
             <% if (tipo == 3) {%>
-                <%- include ('./solicitudes_formularios/reparacion') %>
+                <%- include ('./inc/form_reparacion') %>
             <% } %>
         </div>
         <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
     </div>
 </main>
+<%- include('../partials/footer') %>

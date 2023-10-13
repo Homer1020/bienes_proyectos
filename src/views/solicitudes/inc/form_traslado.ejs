@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col mb-3">
+    <label class="form-label">Departamento de destino</label>
+    <select id="departamento"  name="departamento" class="form-select form-select-lg">
+        <option value="">Selecciona un departamento</option>
+        <!-- Muestra los departamentos de la empresa -->
+        <% solicitud_departamento.forEach(dep => { %>
+            <option value="<%- dep.id %>" <%- id_departamento == dep.id ? 'selected' : '' %>><%= dep.nombre %></option>
+        <% }) %>
+    </select>
+  </div>
+  
+  <div class="col mb-3">
+    <div class="mb-3">
+      <label class="form-label ">ID del solicitante</label>
+      <select name="id_solicitante" id="id_solicitante" class="form-select form-select-lg">
+  
+        <option value="" disabled>Seleccione el código del solicitante</option>
+        
+        <% solicitud_trabajadores.forEach(t => {%>
+          <option class="form-code-option" value="<%- t.id %>" %>>T-<%= t.id %><%= t.id %> - <%= t.nombre %> <%= t.apellido %></option>
+        <% }) %>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="mb-3">
+  <label for="codigo_bien" class="form-label">Código del bien</label>
+  <select name="codigo_bien" class="form-select form-select-lg w-50">
+    <% codigo_bienes.forEach(b => { %>
+      <option value="<%- b.codigo %>"><%= b.codigo %> - <%= b.nombre %></option>
+    <% }) %>
+  </select>
+</div>
