@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               10.1.37-MariaDB - mariadb.org binary distribution
--- Server OS:                    Win32
--- HeidiSQL Version:             12.5.0.6677
+-- Versión del servidor:         10.1.37-MariaDB - mariadb.org binary distribution
+-- SO del servidor:              Win32
+-- HeidiSQL Versión:             12.5.0.6677
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -15,11 +15,11 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- Dumping database structure for bienes_system
+-- Volcando estructura de base de datos para bienes_system
 CREATE DATABASE IF NOT EXISTS `bienes_system` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `bienes_system`;
 
--- Dumping structure for table bienes_system.asignaciones
+-- Volcando estructura para tabla bienes_system.asignaciones
 CREATE TABLE IF NOT EXISTS `asignaciones` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `trabajadores_id` int(11) NOT NULL,
@@ -31,10 +31,9 @@ CREATE TABLE IF NOT EXISTS `asignaciones` (
   CONSTRAINT `fk_Asignaciones_Trabajador1` FOREIGN KEY (`trabajadores_id`) REFERENCES `trabajadores` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table bienes_system.asignaciones: ~0 rows (approximately)
-DELETE FROM `asignaciones`;
+-- La exportación de datos fue deseleccionada.
 
--- Dumping structure for table bienes_system.bienes
+-- Volcando estructura para tabla bienes_system.bienes
 CREATE TABLE IF NOT EXISTS `bienes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `codigo` varchar(45) NOT NULL,
@@ -56,13 +55,9 @@ CREATE TABLE IF NOT EXISTS `bienes` (
   CONSTRAINT `fk_Bienes_Trabajador1` FOREIGN KEY (`trabajadores_id`) REFERENCES `trabajadores` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bienes_system.bienes: ~0 rows (approximately)
-DELETE FROM `bienes`;
-INSERT INTO `bienes` (`id`, `codigo`, `nombre`, `fecha_ingreso`, `estados_bien_id`, `trabajadores_id`, `categorias_id`, `sedes_id`) VALUES
-	(3, 'C1-PC GAMER-1697573848910', 'PC GAMER', '2023-10-14', 1, NULL, 1, 1),
-	(4, 'C1-LAPTOP-1697573894991', 'LAPTOP', '2023-10-14', 1, NULL, 1, 1);
+-- La exportación de datos fue deseleccionada.
 
--- Dumping structure for table bienes_system.bienes_has_solicitudes
+-- Volcando estructura para tabla bienes_system.bienes_has_solicitudes
 CREATE TABLE IF NOT EXISTS `bienes_has_solicitudes` (
   `bienes_id` int(11) NOT NULL,
   `solicitudes_id` int(11) NOT NULL,
@@ -73,33 +68,28 @@ CREATE TABLE IF NOT EXISTS `bienes_has_solicitudes` (
   CONSTRAINT `fk_Bienes_has_Solicitudes_Solicitudes1` FOREIGN KEY (`solicitudes_id`) REFERENCES `solicitudes` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table bienes_system.bienes_has_solicitudes: ~0 rows (approximately)
-DELETE FROM `bienes_has_solicitudes`;
+-- La exportación de datos fue deseleccionada.
 
--- Dumping structure for table bienes_system.cargos
+-- Volcando estructura para tabla bienes_system.cargos
 CREATE TABLE IF NOT EXISTS `cargos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `nombreCargo_UNIQUE` (`nombre`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bienes_system.cargos: ~0 rows (approximately)
-DELETE FROM `cargos`;
+-- La exportación de datos fue deseleccionada.
 
--- Dumping structure for table bienes_system.categorias
+-- Volcando estructura para tabla bienes_system.categorias
 CREATE TABLE IF NOT EXISTS `categorias` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bienes_system.categorias: ~1 rows (approximately)
-DELETE FROM `categorias`;
-INSERT INTO `categorias` (`id`, `nombre`) VALUES
-	(1, 'Computadoras');
+-- La exportación de datos fue deseleccionada.
 
--- Dumping structure for table bienes_system.departamentos
+-- Volcando estructura para tabla bienes_system.departamentos
 CREATE TABLE IF NOT EXISTS `departamentos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
@@ -108,12 +98,11 @@ CREATE TABLE IF NOT EXISTS `departamentos` (
   UNIQUE KEY `nombreDepartamento_UNIQUE` (`nombre`) USING BTREE,
   KEY `fk_Departamentos_Sedes1_idx` (`sedes_id`) USING BTREE,
   CONSTRAINT `fk_Departamentos_Sedes1` FOREIGN KEY (`sedes_id`) REFERENCES `sedes` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bienes_system.departamentos: ~0 rows (approximately)
-DELETE FROM `departamentos`;
+-- La exportación de datos fue deseleccionada.
 
--- Dumping structure for table bienes_system.estados_bien
+-- Volcando estructura para tabla bienes_system.estados_bien
 CREATE TABLE IF NOT EXISTS `estados_bien` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `estado` varchar(45) NOT NULL,
@@ -121,23 +110,19 @@ CREATE TABLE IF NOT EXISTS `estados_bien` (
   UNIQUE KEY `estado_UNIQUE` (`estado`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bienes_system.estados_bien: ~1 rows (approximately)
-DELETE FROM `estados_bien`;
-INSERT INTO `estados_bien` (`id`, `estado`) VALUES
-	(1, 'Comprado');
+-- La exportación de datos fue deseleccionada.
 
--- Dumping structure for table bienes_system.estados_solicitud
+-- Volcando estructura para tabla bienes_system.estados_solicitud
 CREATE TABLE IF NOT EXISTS `estados_solicitud` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `estado` varchar(45) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `estado_UNIQUE` (`estado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bienes_system.estados_solicitud: ~0 rows (approximately)
-DELETE FROM `estados_solicitud`;
+-- La exportación de datos fue deseleccionada.
 
--- Dumping structure for table bienes_system.gerencias
+-- Volcando estructura para tabla bienes_system.gerencias
 CREATE TABLE IF NOT EXISTS `gerencias` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
@@ -146,12 +131,11 @@ CREATE TABLE IF NOT EXISTS `gerencias` (
   UNIQUE KEY `nombreGerencia_UNIQUE` (`nombre`) USING BTREE,
   KEY `fk_Gerencias_Departamentos1_idx` (`departamentos_id`) USING BTREE,
   CONSTRAINT `fk_Gerencias_Departamentos1` FOREIGN KEY (`departamentos_id`) REFERENCES `departamentos` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bienes_system.gerencias: ~0 rows (approximately)
-DELETE FROM `gerencias`;
+-- La exportación de datos fue deseleccionada.
 
--- Dumping structure for table bienes_system.reparaciones
+-- Volcando estructura para tabla bienes_system.reparaciones
 CREATE TABLE IF NOT EXISTS `reparaciones` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `motivo` text NOT NULL,
@@ -159,10 +143,9 @@ CREATE TABLE IF NOT EXISTS `reparaciones` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table bienes_system.reparaciones: ~0 rows (approximately)
-DELETE FROM `reparaciones`;
+-- La exportación de datos fue deseleccionada.
 
--- Dumping structure for table bienes_system.sedes
+-- Volcando estructura para tabla bienes_system.sedes
 CREATE TABLE IF NOT EXISTS `sedes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
@@ -170,39 +153,32 @@ CREATE TABLE IF NOT EXISTS `sedes` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bienes_system.sedes: ~1 rows (approximately)
-DELETE FROM `sedes`;
-INSERT INTO `sedes` (`id`, `nombre`, `direccion`) VALUES
-	(1, 'Chacao', 'Chacao');
+-- La exportación de datos fue deseleccionada.
 
--- Dumping structure for table bienes_system.solicitudes
+-- Volcando estructura para tabla bienes_system.solicitudes
 CREATE TABLE IF NOT EXISTS `solicitudes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_solicitud` varchar(45) NOT NULL,
-  `fecha_solicitud` date NOT NULL,
+  `fecha_solicitud` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `estados_solicitud_id` int(11) NOT NULL,
-  `trabajadoes_id` int(11) NOT NULL,
+  `trabajadores_id` int(11) NOT NULL,
   `gerencias_id` int(11) NOT NULL,
   `solicitudes_tipo` int(11) NOT NULL,
-  `reparaciones_id` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `codigoSolicitud_UNIQUE` (`codigo_solicitud`) USING BTREE,
   KEY `fk_Solicitudes_Estados_Solicitud1_idx` (`estados_solicitud_id`) USING BTREE,
-  KEY `fk_Solicitudes_Trabajador1_idx` (`trabajadoes_id`) USING BTREE,
   KEY `fk_Solicitudes_Gerencias1_idx` (`gerencias_id`) USING BTREE,
   KEY `fk_Solicitudes_Solicitud_tipo1_idx` (`solicitudes_tipo`) USING BTREE,
-  KEY `fk_Solicitudes_Reparaciones1_idx` (`reparaciones_id`) USING BTREE,
+  KEY `fk_Solicitudes_Trabajador1_idx` (`trabajadores_id`) USING BTREE,
   CONSTRAINT `fk_Solicitudes_Estados_Solicitud1` FOREIGN KEY (`estados_solicitud_id`) REFERENCES `estados_solicitud` (`id`),
   CONSTRAINT `fk_Solicitudes_Gerencias1` FOREIGN KEY (`gerencias_id`) REFERENCES `gerencias` (`id`),
-  CONSTRAINT `fk_Solicitudes_Reparaciones1` FOREIGN KEY (`reparaciones_id`) REFERENCES `reparaciones` (`id`),
   CONSTRAINT `fk_Solicitudes_Solicitud_tipo1` FOREIGN KEY (`solicitudes_tipo`) REFERENCES `solicitud_tipo` (`id`),
-  CONSTRAINT `fk_Solicitudes_Trabajador1` FOREIGN KEY (`trabajadoes_id`) REFERENCES `trabajadores` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_Solicitudes_Trabajador1` FOREIGN KEY (`trabajadores_id`) REFERENCES `trabajadores` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bienes_system.solicitudes: ~0 rows (approximately)
-DELETE FROM `solicitudes`;
+-- La exportación de datos fue deseleccionada.
 
--- Dumping structure for table bienes_system.solicitud_tipo
+-- Volcando estructura para tabla bienes_system.solicitud_tipo
 CREATE TABLE IF NOT EXISTS `solicitud_tipo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tipo` varchar(45) NOT NULL,
@@ -210,12 +186,9 @@ CREATE TABLE IF NOT EXISTS `solicitud_tipo` (
   UNIQUE KEY `tipo_UNIQUE` (`tipo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bienes_system.solicitud_tipo: ~1 rows (approximately)
-DELETE FROM `solicitud_tipo`;
-INSERT INTO `solicitud_tipo` (`id`, `tipo`) VALUES
-	(1, 'Traslado');
+-- La exportación de datos fue deseleccionada.
 
--- Dumping structure for table bienes_system.trabajadores
+-- Volcando estructura para tabla bienes_system.trabajadores
 CREATE TABLE IF NOT EXISTS `trabajadores` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(250) NOT NULL,
@@ -227,12 +200,11 @@ CREATE TABLE IF NOT EXISTS `trabajadores` (
   KEY `fk_Trabajador_Gerencias1_idx` (`gerencias_id`) USING BTREE,
   CONSTRAINT `fk_Trabajador_Cargos1` FOREIGN KEY (`cargos_id`) REFERENCES `cargos` (`id`),
   CONSTRAINT `fk_Trabajador_Gerencias1` FOREIGN KEY (`gerencias_id`) REFERENCES `gerencias` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bienes_system.trabajadores: ~0 rows (approximately)
-DELETE FROM `trabajadores`;
+-- La exportación de datos fue deseleccionada.
 
--- Dumping structure for table bienes_system.translados
+-- Volcando estructura para tabla bienes_system.translados
 CREATE TABLE IF NOT EXISTS `translados` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `solicitudes_id` int(11) NOT NULL,
@@ -245,22 +217,19 @@ CREATE TABLE IF NOT EXISTS `translados` (
   CONSTRAINT `fk_Translados_Solicitudes1` FOREIGN KEY (`solicitudes_id`) REFERENCES `solicitudes` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table bienes_system.translados: ~0 rows (approximately)
-DELETE FROM `translados`;
+-- La exportación de datos fue deseleccionada.
 
--- Dumping structure for table bienes_system.usuarios
+-- Volcando estructura para tabla bienes_system.usuarios
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(100) NOT NULL DEFAULT '',
   `password` varchar(100) NOT NULL DEFAULT '',
+  `trabajadores_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nickname` (`email`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bienes_system.usuarios: ~1 rows (approximately)
-DELETE FROM `usuarios`;
-INSERT INTO `usuarios` (`id`, `email`, `password`) VALUES
-	(4, 'homermoncallo@gmail.com', '$2b$10$NTHoFh2j2On1fnjiIvg1HO/EYJMeguumgn38a8k5/8UhVrLyuupXO');
+-- La exportación de datos fue deseleccionada.
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

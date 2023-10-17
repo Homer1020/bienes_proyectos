@@ -22,9 +22,9 @@
         </div>
 
         <form action="/solicitudes/formulario" method="post">
+            <input type="hidden" name="solicitudes_tipo" value="1">
             
             <div class="mb-3">
-                <input value="1" hidden>
                 <label for="bienes_id" class="form-label">Bienes</label>
                 <select name="bienes_id[]" id="bienes_id" class="form-select select2" multiple="multiple"> 
                     <% bienes.forEach(bien => {%>
