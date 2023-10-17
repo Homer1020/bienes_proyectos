@@ -1,64 +1,48 @@
 <%- include('../partials/header') %>
-<main class="container">
-    <div class="d-flex justify-content-between align-items-center">
-        <h1 class="h5 text-uppercase my-3">Realizar nueva solicitud</h1>
-        <div>
-            <a href="/solicitudes" class="btn btn-sm btn-primary">Listado de bienes</a>
+    <main class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="h5 text-uppercase my-3">Realizar nueva solicitud</h1>
+            <div>
+                <a href="/solicitudes" class="btn btn-sm btn-primary">Listado de bienes</a>
+            </div>
         </div>
-    </div>
-    
-   <div class="solicitud_formularios">
 
-        <div class="row">
-            <form class="col" action="/solicitudes/formulario" method="get">
-                <div class="solicitud_tipos mb-3">
-                    <label for="tipo">Tipo de solicitud</label>
-                    <select id="tipo"  name="tipo" class="form-select form-select-lg" onchange="this.form.submit()">
-                        <option value="">Selecciona una opción</option>
-                        <!-- Muestra las opciones traidas desde la bdd -->
-                        <% tipo_solicitud.forEach(t => { %>
-                            <option value="<%- t.id %>" <%- tipo == t.id ? 'selected' : '' %>><%= t.tipo %></option>
-                        <% }) %>
-                    </select>
-                </div>
-            </form>
-            
-            <form class="col" action="/solicitudes/formulario" method="get">
-                <div class="solicitud_tipos mb-3">
-                    <label for="departamento">Departamento</label>
-                    <select id="departamento"  name="departamento" class="form-select form-select-lg" onchange="this.form.submit()">
-                        <option value="">Selecciona un departamento</option>
-                        <!-- Muestra los departamentos de la empresa -->
-                        <% solicitud_departamento.forEach(dep => { %>
-                            <option value="<%- dep.id %>" <%- id_departamento == dep.id ? 'selected' : '' %>><%= dep.nombre %></option>
-                        <% }) %>
-                    </select>
-                </div>
-            </form>
+        <div class="mb-3">
+            <div class="dropdown">
+                <button class="btn btn-secondary btn-small dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Tipo de solicitud
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="?tipo=1">Asignación</a></li>
+                    <li><a class="dropdown-item" href="?tipo=2">Reparación</a></li>
+                    <li><a class="dropdown-item" href="?tipo=3">Traslado</a></li>
+                </ul>
+            </div>
         </div>
+
+        <form action="/solicitudes/formulario" method="post">
+            
+            <div class="mb-3">
+                <input value="1" hidden>
+                <label for="bienes_id" class="form-label">Bienes</label>
+                <select name="bienes_id[]" id="bienes_id" class="form-select select2" multiple="multiple"> 
+                    <% bienes.forEach(bien => {%>
+                        <option value="<%= bien.id %>"><%= bien.codigo %> - <%= bien.nombre %></option>
+                    <%}) %>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="sedes_id" class="form-label">Sede de destino</label>
+                <select name="sedes_id" id="sedes_id" class="form-select select2"> 
+                    <% sedes.forEach(sede => {%>
+                        <option value="<%= sede.id %>"><%= sede.nombre %></option>
+                    <%}) %>
+                </select>
+            </div>
+
+            <button class="btn btn-primary">Crear</button>
         </form>
-    </div>
-    
-    <h1 class="mb-4">Solicitud de <%= tipo_solicitud.find(t => t.id == tipo)?.tipo %> </h2>
-        
-    <form class="mb-5" action="/solicitud" method="post">
-
-        <div id="solicitud-form" class="mb-3">
-            
-            <% if (tipo == 1) { %>    
-                <%- include ('./inc/form_asignacion') %>
-            <% } %>
-
-            <% if (tipo == 2) {%>
-                <%- include ('./inc/form_traslado') %>
-            <% } %>
-
-            <% if (tipo == 3) {%>
-                <%- include ('./inc/form_reparacion') %>
-            <% } %>
-        </div>
-        <button type="submit" class="btn btn-primary">Enviar</button>
-    </form>
-    </div>
-</main>
-<%- include('../partials/footer') %>
+    </main>
+    <%- include('../partials/footer') %>

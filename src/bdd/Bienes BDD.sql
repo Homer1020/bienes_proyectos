@@ -1,244 +1,269 @@
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Server version:               10.1.37-MariaDB - mariadb.org binary distribution
+-- Server OS:                    Win32
+-- HeidiSQL Version:             12.5.0.6677
+-- --------------------------------------------------------
 
-;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-/*!40101 SET NAMES utf8 */
 
-;
-
-/*!50503 SET NAMES utf8mb4 */
-
-;
-
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */
-
-;
-
-/*!40103 SET TIME_ZONE='+00:00' */
-
-;
-
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */
-
-;
-
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */
-
-;
-
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */
-
-;
-
-CREATE DATABASE
-    IF NOT EXISTS `bienes_system`
-    /*!40100 DEFAULT CHARACTER SET utf8mb3 */
-    /*!80016 DEFAULT ENCRYPTION='N' */
-;
-
+-- Dumping database structure for bienes_system
+CREATE DATABASE IF NOT EXISTS `bienes_system` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `bienes_system`;
 
-CREATE TABLE
-    IF NOT EXISTS `asignaciones` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `trabajadores_id` int NOT NULL,
-        `bienes_id` int NOT NULL,
-        PRIMARY KEY (`id`) USING BTREE,
-        KEY `fk_Asignaciones_Trabajador1_idx` (`trabajadores_id`) USING BTREE,
-        KEY `fk_Asignaciones_Bienes1_idx` (`bienes_id`) USING BTREE,
-        CONSTRAINT `fk_Asignaciones_Bienes1` FOREIGN KEY (`bienes_id`) REFERENCES `bienes` (`id`),
-        CONSTRAINT `fk_Asignaciones_Trabajador1` FOREIGN KEY (`trabajadores_id`) REFERENCES `trabajadores` (`id`)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
+-- Dumping structure for table bienes_system.asignaciones
+CREATE TABLE IF NOT EXISTS `asignaciones` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `trabajadores_id` int(11) NOT NULL,
+  `bienes_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `fk_Asignaciones_Trabajador1_idx` (`trabajadores_id`) USING BTREE,
+  KEY `fk_Asignaciones_Bienes1_idx` (`bienes_id`) USING BTREE,
+  CONSTRAINT `fk_Asignaciones_Bienes1` FOREIGN KEY (`bienes_id`) REFERENCES `bienes` (`id`),
+  CONSTRAINT `fk_Asignaciones_Trabajador1` FOREIGN KEY (`trabajadores_id`) REFERENCES `trabajadores` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE
-    IF NOT EXISTS `bienes` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `codigo` varchar(45) NOT NULL,
-        `nombre` varchar(45) NOT NULL,
-        `fecha_ingreso` date NOT NULL,
-        `estados_bien_id` int NOT NULL,
-        `trabajadores_id` int NOT NULL,
-        `categorias_id` int DEFAULT NULL,
-        `sedes_id` int DEFAULT NULL,
-        PRIMARY KEY (`id`) USING BTREE,
-        UNIQUE KEY `codigo_UNIQUE` (`codigo`),
-        KEY `fk_Bienes_Estados_bien1_idx` (`estados_bien_id`) USING BTREE,
-        KEY `fk_Bienes_Trabajador1_idx` (`trabajadores_id`) USING BTREE,
-        KEY `FK_bienes_categorias` (`categorias_id`),
-        KEY `FK_bienes_sedes` (`sedes_id`),
-        CONSTRAINT `FK_bienes_categorias` FOREIGN KEY (`categorias_id`) REFERENCES `categorias` (`id`),
-        CONSTRAINT `fk_Bienes_Estados_bien1` FOREIGN KEY (`estados_bien_id`) REFERENCES `estados_bien` (`id`),
-        CONSTRAINT `FK_bienes_sedes` FOREIGN KEY (`sedes_id`) REFERENCES `sedes` (`id`),
-        CONSTRAINT `fk_Bienes_Trabajador1` FOREIGN KEY (`trabajadores_id`) REFERENCES `trabajadores` (`id`)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
+-- Dumping data for table bienes_system.asignaciones: ~0 rows (approximately)
+DELETE FROM `asignaciones`;
 
-CREATE TABLE
-    IF NOT EXISTS `bienes_has_solicitudes` (
-        `bienes_id` int NOT NULL,
-        `solicitudes_id` int NOT NULL,
-        PRIMARY KEY (`bienes_id`, `solicitudes_id`) USING BTREE,
-        KEY `fk_Bienes_has_Solicitudes_Solicitudes1_idx` (`solicitudes_id`) USING BTREE,
-        KEY `fk_Bienes_has_Solicitudes_Bienes1_idx` (`bienes_id`) USING BTREE,
-        CONSTRAINT `fk_Bienes_has_Solicitudes_Bienes1` FOREIGN KEY (`bienes_id`) REFERENCES `bienes` (`id`),
-        CONSTRAINT `fk_Bienes_has_Solicitudes_Solicitudes1` FOREIGN KEY (`solicitudes_id`) REFERENCES `solicitudes` (`id`)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
+-- Dumping structure for table bienes_system.bienes
+CREATE TABLE IF NOT EXISTS `bienes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(45) NOT NULL,
+  `nombre` varchar(45) NOT NULL,
+  `fecha_ingreso` date NOT NULL,
+  `estados_bien_id` int(11) NOT NULL,
+  `trabajadores_id` int(11) DEFAULT NULL,
+  `categorias_id` int(11) DEFAULT NULL,
+  `sedes_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `codigo_UNIQUE` (`codigo`),
+  KEY `fk_Bienes_Estados_bien1_idx` (`estados_bien_id`) USING BTREE,
+  KEY `fk_Bienes_Trabajador1_idx` (`trabajadores_id`) USING BTREE,
+  KEY `FK_bienes_categorias` (`categorias_id`),
+  KEY `FK_bienes_sedes` (`sedes_id`),
+  CONSTRAINT `FK_bienes_categorias` FOREIGN KEY (`categorias_id`) REFERENCES `categorias` (`id`),
+  CONSTRAINT `FK_bienes_sedes` FOREIGN KEY (`sedes_id`) REFERENCES `sedes` (`id`),
+  CONSTRAINT `fk_Bienes_Estados_bien1` FOREIGN KEY (`estados_bien_id`) REFERENCES `estados_bien` (`id`),
+  CONSTRAINT `fk_Bienes_Trabajador1` FOREIGN KEY (`trabajadores_id`) REFERENCES `trabajadores` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-CREATE TABLE
-    IF NOT EXISTS `cargos` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `nombre` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-        PRIMARY KEY (`id`) USING BTREE,
-        UNIQUE KEY `nombreCargo_UNIQUE` (`nombre`) USING BTREE
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
+-- Dumping data for table bienes_system.bienes: ~0 rows (approximately)
+DELETE FROM `bienes`;
+INSERT INTO `bienes` (`id`, `codigo`, `nombre`, `fecha_ingreso`, `estados_bien_id`, `trabajadores_id`, `categorias_id`, `sedes_id`) VALUES
+	(3, 'C1-PC GAMER-1697573848910', 'PC GAMER', '2023-10-14', 1, NULL, 1, 1),
+	(4, 'C1-LAPTOP-1697573894991', 'LAPTOP', '2023-10-14', 1, NULL, 1, 1);
 
-CREATE TABLE
-    IF NOT EXISTS `categorias` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `nombre` varchar(50) NOT NULL DEFAULT '',
-        PRIMARY KEY (`id`)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
+-- Dumping structure for table bienes_system.bienes_has_solicitudes
+CREATE TABLE IF NOT EXISTS `bienes_has_solicitudes` (
+  `bienes_id` int(11) NOT NULL,
+  `solicitudes_id` int(11) NOT NULL,
+  PRIMARY KEY (`bienes_id`,`solicitudes_id`) USING BTREE,
+  KEY `fk_Bienes_has_Solicitudes_Solicitudes1_idx` (`solicitudes_id`) USING BTREE,
+  KEY `fk_Bienes_has_Solicitudes_Bienes1_idx` (`bienes_id`) USING BTREE,
+  CONSTRAINT `fk_Bienes_has_Solicitudes_Bienes1` FOREIGN KEY (`bienes_id`) REFERENCES `bienes` (`id`),
+  CONSTRAINT `fk_Bienes_has_Solicitudes_Solicitudes1` FOREIGN KEY (`solicitudes_id`) REFERENCES `solicitudes` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE
-    IF NOT EXISTS `departamentos` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `nombre` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-        `sedes_id` int NOT NULL,
-        PRIMARY KEY (`i`, `sedes_id`) USING BTREE,
-        UNIQUE KEY `nombreDepartamento_UNIQUE` (`nombre`) USING BTREE,
-        KEY `fk_Departamentos_Sedes1_idx` (`sedes_id`) USING BTREE,
-        CONSTRAINT `fk_Departamentos_Sedes1` FOREIGN KEY (`sedes_id`) REFERENCES `sedes` (`id`)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
+-- Dumping data for table bienes_system.bienes_has_solicitudes: ~0 rows (approximately)
+DELETE FROM `bienes_has_solicitudes`;
 
-CREATE TABLE
-    IF NOT EXISTS `estados_bien` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `estado` varchar(45) NOT NULL,
-        PRIMARY KEY (`id`) USING BTREE,
-        UNIQUE KEY `estado_UNIQUE` (`estado`)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
+-- Dumping structure for table bienes_system.cargos
+CREATE TABLE IF NOT EXISTS `cargos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `nombreCargo_UNIQUE` (`nombre`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE
-    IF NOT EXISTS `estados_solicitud` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `estado` varchar(45) NOT NULL,
-        PRIMARY KEY (`id`) USING BTREE,
-        UNIQUE KEY `estado_UNIQUE` (`estado`)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
+-- Dumping data for table bienes_system.cargos: ~0 rows (approximately)
+DELETE FROM `cargos`;
 
-CREATE TABLE
-    IF NOT EXISTS `gerencias` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `nombre` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-        `departamentos_id` int NOT NULL,
-        PRIMARY KEY (`id`) USING BTREE,
-        UNIQUE KEY `nombreGerencia_UNIQUE` (`nombre`) USING BTREE,
-        KEY `fk_Gerencias_Departamentos1_idx` (`departamentos_id`) USING BTREE,
-        CONSTRAINT `fk_Gerencias_Departamentos1` FOREIGN KEY (`departamentos_id`) REFERENCES `departamentos` (`i`)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
+-- Dumping structure for table bienes_system.categorias
+CREATE TABLE IF NOT EXISTS `categorias` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-CREATE TABLE
-    IF NOT EXISTS `reparaciones` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `motivo` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-        `estado` tinyint NOT NULL,
-        PRIMARY KEY (`id`) USING BTREE
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
+-- Dumping data for table bienes_system.categorias: ~1 rows (approximately)
+DELETE FROM `categorias`;
+INSERT INTO `categorias` (`id`, `nombre`) VALUES
+	(1, 'Computadoras');
 
-CREATE TABLE
-    IF NOT EXISTS `sedes` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `nombre` varchar(50) NOT NULL,
-        `direccion` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-        PRIMARY KEY (`id`) USING BTREE
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
+-- Dumping structure for table bienes_system.departamentos
+CREATE TABLE IF NOT EXISTS `departamentos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) NOT NULL,
+  `sedes_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`,`sedes_id`) USING BTREE,
+  UNIQUE KEY `nombreDepartamento_UNIQUE` (`nombre`) USING BTREE,
+  KEY `fk_Departamentos_Sedes1_idx` (`sedes_id`) USING BTREE,
+  CONSTRAINT `fk_Departamentos_Sedes1` FOREIGN KEY (`sedes_id`) REFERENCES `sedes` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE
-    IF NOT EXISTS `solicitudes` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `codigo_solicitud` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-        `fecha_solicitud` date NOT NULL,
-        `estados_solicitud_id` int NOT NULL,
-        `trabajadoes_id` int NOT NULL,
-        `gerencias_id` int NOT NULL,
-        `solicitudes_tipo` int NOT NULL,
-        `reparaciones_id` int NOT NULL,
-        PRIMARY KEY (`id`) USING BTREE,
-        UNIQUE KEY `codigoSolicitud_UNIQUE` (`codigo_solicitud`) USING BTREE,
-        KEY `fk_Solicitudes_Estados_Solicitud1_idx` (`estados_solicitud_id`) USING BTREE,
-        KEY `fk_Solicitudes_Trabajador1_idx` (`trabajadoes_id`) USING BTREE,
-        KEY `fk_Solicitudes_Gerencias1_idx` (`gerencias_id`) USING BTREE,
-        KEY `fk_Solicitudes_Solicitud_tipo1_idx` (`solicitudes_tipo`) USING BTREE,
-        KEY `fk_Solicitudes_Reparaciones1_idx` (`reparaciones_id`) USING BTREE,
-        CONSTRAINT `fk_Solicitudes_Estados_Solicitud1` FOREIGN KEY (`estados_solicitud_id`) REFERENCES `estados_solicitud` (`id`),
-        CONSTRAINT `fk_Solicitudes_Gerencias1` FOREIGN KEY (`gerencias_id`) REFERENCES `gerencias` (`id`),
-        CONSTRAINT `fk_Solicitudes_Reparaciones1` FOREIGN KEY (`reparaciones_id`) REFERENCES `reparaciones` (`id`),
-        CONSTRAINT `fk_Solicitudes_Solicitud_tipo1` FOREIGN KEY (`solicitudes_tipo`) REFERENCES `solicitud_tipo` (`id`),
-        CONSTRAINT `fk_Solicitudes_Trabajador1` FOREIGN KEY (`trabajadoes_id`) REFERENCES `trabajadores` (`id`)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
+-- Dumping data for table bienes_system.departamentos: ~0 rows (approximately)
+DELETE FROM `departamentos`;
 
-CREATE TABLE
-    IF NOT EXISTS `solicitud_tipo` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `tipo` varchar(45) NOT NULL,
-        PRIMARY KEY (`id`) USING BTREE,
-        UNIQUE KEY `tipo_UNIQUE` (`tipo`)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
+-- Dumping structure for table bienes_system.estados_bien
+CREATE TABLE IF NOT EXISTS `estados_bien` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `estado` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `estado_UNIQUE` (`estado`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-CREATE TABLE
-    IF NOT EXISTS `trabajadores` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `nombre` VARCHAR(250) NOT NULL,
-        `cargos_id` int NOT NULL,
-        `gerencias_id` int NOT NULL,
-        PRIMARY KEY (
-            `id`,
-            `cargos_id`,
-            `gerencias_id`
-        ) USING BTREE,
-        KEY `fk_Trabajador_Cargos1_idx` (`cargos_id`) USING BTREE,
-        KEY `fk_Trabajador_Gerencias1_idx` (`gerencias_id`) USING BTREE,
-        CONSTRAINT `fk_Trabajador_Cargos1` FOREIGN KEY (`cargos_id`) REFERENCES `cargos` (`id`),
-        CONSTRAINT `fk_Trabajador_Gerencias1` FOREIGN KEY (`gerencias_id`) REFERENCES `gerencias` (`id`)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
+-- Dumping data for table bienes_system.estados_bien: ~1 rows (approximately)
+DELETE FROM `estados_bien`;
+INSERT INTO `estados_bien` (`id`, `estado`) VALUES
+	(1, 'Comprado');
 
-CREATE TABLE
-    IF NOT EXISTS `translados` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `solicitudes_id` int NOT NULL,
-        `sedes_id` int NOT NULL,
-        `comprobante` varchar(50) NOT NULL DEFAULT '',
-        PRIMARY KEY (`id`, `sedes_id`) USING BTREE,
-        KEY `fk_Translados_Solicitudes1_idx` (`solicitudes_id`) USING BTREE,
-        KEY `fk_Translados_Sedes1_idx` (`sedes_id`) USING BTREE,
-        CONSTRAINT `fk_Translados_Sedes1` FOREIGN KEY (`sedes_id`) REFERENCES `sedes` (`id`),
-        CONSTRAINT `fk_Translados_Solicitudes1` FOREIGN KEY (`solicitudes_id`) REFERENCES `solicitudes` (`id`)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
+-- Dumping structure for table bienes_system.estados_solicitud
+CREATE TABLE IF NOT EXISTS `estados_solicitud` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `estado` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `estado_UNIQUE` (`estado`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE
-    IF NOT EXISTS `usuarios` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `email` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '',
-        `password` varchar(100) NOT NULL DEFAULT '',
-        PRIMARY KEY (`id`),
-        UNIQUE KEY `nickname` (`email`) USING BTREE
-    ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = utf8mb3;
+-- Dumping data for table bienes_system.estados_solicitud: ~0 rows (approximately)
+DELETE FROM `estados_solicitud`;
 
-/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */
+-- Dumping structure for table bienes_system.gerencias
+CREATE TABLE IF NOT EXISTS `gerencias` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) NOT NULL,
+  `departamentos_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `nombreGerencia_UNIQUE` (`nombre`) USING BTREE,
+  KEY `fk_Gerencias_Departamentos1_idx` (`departamentos_id`) USING BTREE,
+  CONSTRAINT `fk_Gerencias_Departamentos1` FOREIGN KEY (`departamentos_id`) REFERENCES `departamentos` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-;
+-- Dumping data for table bienes_system.gerencias: ~0 rows (approximately)
+DELETE FROM `gerencias`;
 
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */
+-- Dumping structure for table bienes_system.reparaciones
+CREATE TABLE IF NOT EXISTS `reparaciones` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `motivo` text NOT NULL,
+  `estado` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-;
+-- Dumping data for table bienes_system.reparaciones: ~0 rows (approximately)
+DELETE FROM `reparaciones`;
 
-/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */
+-- Dumping structure for table bienes_system.sedes
+CREATE TABLE IF NOT EXISTS `sedes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  `direccion` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-;
+-- Dumping data for table bienes_system.sedes: ~1 rows (approximately)
+DELETE FROM `sedes`;
+INSERT INTO `sedes` (`id`, `nombre`, `direccion`) VALUES
+	(1, 'Chacao', 'Chacao');
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */
+-- Dumping structure for table bienes_system.solicitudes
+CREATE TABLE IF NOT EXISTS `solicitudes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo_solicitud` varchar(45) NOT NULL,
+  `fecha_solicitud` date NOT NULL,
+  `estados_solicitud_id` int(11) NOT NULL,
+  `trabajadoes_id` int(11) NOT NULL,
+  `gerencias_id` int(11) NOT NULL,
+  `solicitudes_tipo` int(11) NOT NULL,
+  `reparaciones_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `codigoSolicitud_UNIQUE` (`codigo_solicitud`) USING BTREE,
+  KEY `fk_Solicitudes_Estados_Solicitud1_idx` (`estados_solicitud_id`) USING BTREE,
+  KEY `fk_Solicitudes_Trabajador1_idx` (`trabajadoes_id`) USING BTREE,
+  KEY `fk_Solicitudes_Gerencias1_idx` (`gerencias_id`) USING BTREE,
+  KEY `fk_Solicitudes_Solicitud_tipo1_idx` (`solicitudes_tipo`) USING BTREE,
+  KEY `fk_Solicitudes_Reparaciones1_idx` (`reparaciones_id`) USING BTREE,
+  CONSTRAINT `fk_Solicitudes_Estados_Solicitud1` FOREIGN KEY (`estados_solicitud_id`) REFERENCES `estados_solicitud` (`id`),
+  CONSTRAINT `fk_Solicitudes_Gerencias1` FOREIGN KEY (`gerencias_id`) REFERENCES `gerencias` (`id`),
+  CONSTRAINT `fk_Solicitudes_Reparaciones1` FOREIGN KEY (`reparaciones_id`) REFERENCES `reparaciones` (`id`),
+  CONSTRAINT `fk_Solicitudes_Solicitud_tipo1` FOREIGN KEY (`solicitudes_tipo`) REFERENCES `solicitud_tipo` (`id`),
+  CONSTRAINT `fk_Solicitudes_Trabajador1` FOREIGN KEY (`trabajadoes_id`) REFERENCES `trabajadores` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-;
+-- Dumping data for table bienes_system.solicitudes: ~0 rows (approximately)
+DELETE FROM `solicitudes`;
 
-/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */
+-- Dumping structure for table bienes_system.solicitud_tipo
+CREATE TABLE IF NOT EXISTS `solicitud_tipo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipo` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `tipo_UNIQUE` (`tipo`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-;
+-- Dumping data for table bienes_system.solicitud_tipo: ~1 rows (approximately)
+DELETE FROM `solicitud_tipo`;
+INSERT INTO `solicitud_tipo` (`id`, `tipo`) VALUES
+	(1, 'Traslado');
+
+-- Dumping structure for table bienes_system.trabajadores
+CREATE TABLE IF NOT EXISTS `trabajadores` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(250) NOT NULL,
+  `cargos_id` int(11) NOT NULL,
+  `gerencias_id` int(11) NOT NULL,
+  `apellido` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`,`cargos_id`,`gerencias_id`) USING BTREE,
+  KEY `fk_Trabajador_Cargos1_idx` (`cargos_id`) USING BTREE,
+  KEY `fk_Trabajador_Gerencias1_idx` (`gerencias_id`) USING BTREE,
+  CONSTRAINT `fk_Trabajador_Cargos1` FOREIGN KEY (`cargos_id`) REFERENCES `cargos` (`id`),
+  CONSTRAINT `fk_Trabajador_Gerencias1` FOREIGN KEY (`gerencias_id`) REFERENCES `gerencias` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table bienes_system.trabajadores: ~0 rows (approximately)
+DELETE FROM `trabajadores`;
+
+-- Dumping structure for table bienes_system.translados
+CREATE TABLE IF NOT EXISTS `translados` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `solicitudes_id` int(11) NOT NULL,
+  `sedes_id` int(11) NOT NULL,
+  `comprobante` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`,`sedes_id`) USING BTREE,
+  KEY `fk_Translados_Solicitudes1_idx` (`solicitudes_id`) USING BTREE,
+  KEY `fk_Translados_Sedes1_idx` (`sedes_id`) USING BTREE,
+  CONSTRAINT `fk_Translados_Sedes1` FOREIGN KEY (`sedes_id`) REFERENCES `sedes` (`id`),
+  CONSTRAINT `fk_Translados_Solicitudes1` FOREIGN KEY (`solicitudes_id`) REFERENCES `solicitudes` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table bienes_system.translados: ~0 rows (approximately)
+DELETE FROM `translados`;
+
+-- Dumping structure for table bienes_system.usuarios
+CREATE TABLE IF NOT EXISTS `usuarios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(100) NOT NULL DEFAULT '',
+  `password` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nickname` (`email`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table bienes_system.usuarios: ~1 rows (approximately)
+DELETE FROM `usuarios`;
+INSERT INTO `usuarios` (`id`, `email`, `password`) VALUES
+	(4, 'homermoncallo@gmail.com', '$2b$10$NTHoFh2j2On1fnjiIvg1HO/EYJMeguumgn38a8k5/8UhVrLyuupXO');
+
+/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;

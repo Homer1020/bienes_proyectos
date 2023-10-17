@@ -16,6 +16,7 @@ router.get('/bienes/:id', bienesController.show)
 router.get('/solicitudes', solicitudesController.index)
 router.get('/solicitudes/formulario', solicitudesController.create)
 router.get('/solicitudes/:id', solicitudesController.show)
+router.post('/solicitudes/formulario', solicitudesController.store)
 
 router.get('/login', authController.loginForm)
 router.post('/login', authController.login)

@@ -1,8 +1,14 @@
 /* eslint no-use-before-define: 0 */
 
 $(document).ready(function () {
-  $('.select2').select2({
+  $('#modal_create_bien .select2').select2({
     dropdownParent: $('#modal_create_bien'),
+    theme: 'bootstrap-5'
+  })
+})
+
+$(document).ready(function () {
+  $(':not(#modal_create_bien) .select2').select2({
     theme: 'bootstrap-5'
   })
 })

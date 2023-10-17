@@ -41,6 +41,7 @@ exports.register = async (req, res) => {
     req.session.user = { email }
     return res.redirect('/')
   } catch (err) {
+    console.log(err)
     req.flash('errores', 'Error al agregar el usuario')
     return res.redirect('/register')
   }

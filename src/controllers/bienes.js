@@ -28,9 +28,10 @@ exports.store = async (req, res) => {
   try {
     const { nombre, fecha_ingreso, categorias_id, trabajadores_id, sedes_id } = req.body
     const codigo = `C${categorias_id}-${nombre.toUpperCase()}-${Date.now()}`
-    await db.query('INSERT INTO bienes (nombre, fecha_ingreso, categorias_id, trabajadores_id, sedes_id, codigo) VALUES (?, ?, ?, ?, ?, ?)', [nombre, fecha_ingreso, categorias_id, trabajadores_id, sedes_id, codigo])
+    await db.query('INSERT INTO bienes (nombre, fecha_ingreso, categorias_id, trabajadores_id, sedes_id, codigo, estados_bien_id) VALUES (?, ?, ?, ?, ?, ?, ?)', [nombre, fecha_ingreso, categorias_id, trabajadores_id, sedes_id, codigo, 1])
     req.flash('messages', 'Se creo el bien ' + codigo)
   } catch (error) {
+    console.log(error)
     req.flash('errores', 'Error al crear el bien')
   }
   res.redirect('/bienes')
