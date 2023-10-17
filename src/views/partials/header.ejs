@@ -18,10 +18,16 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ms-auto">
-          <% if(!user?.gerencias_id) { %>
-            <a class="nav-link" href="/bienes">Bienes</a>
+          <% if(user) {%>
+            <% if(!user?.gerencias_id) { %>
+              <a class="nav-link" href="/bienes">Bienes</a>
+            <% } %>
+            <a class="nav-link" href="/solicitudes">Solicitudes</a>
+            <a href="/logout" class="nav-link">Cerrar Sesion</a>
+          <% } else { %>
+            <a href="/login" class="nav-link">Login</a>
+            <a href="/register" class="nav-link">Registro</a>
           <% } %>
-          <a class="nav-link" href="/solicitudes">Solicitudes</a>
         </div>
       </div>
     </div>

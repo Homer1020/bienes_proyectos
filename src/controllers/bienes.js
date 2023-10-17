@@ -31,7 +31,7 @@ exports.store = async (req, res) => {
     await db.query('INSERT INTO bienes (nombre, fecha_ingreso, categorias_id, trabajadores_id, sedes_id, codigo) VALUES (?, ?, ?, ?, ?, ?)', [nombre, fecha_ingreso, categorias_id, trabajadores_id, sedes_id, codigo])
     req.flash('messages', 'Se creo el bien ' + codigo)
   } catch (error) {
-    req.flash('messages', 'Error al crear el bien')
+    req.flash('errores', 'Error al crear el bien')
   }
   res.redirect('/bienes')
 }

@@ -10,7 +10,7 @@ exports.login = async (req, res) => {
   const { result: { 0: user } } = await db.query('SELECT * FROM usuarios WHERE email = ? LIMIT 1', [email])
   let error = false
   if (!user) error = true
-  if (!bcrypt.compareSync(password, user.password)) error = true
+  else if (!bcrypt.compareSync(password, user.password)) error = true
   if (error) {
     req.flash('errores', 'Usuario o contrasena incorrectos')
     return res.redirect('/login')
@@ -33,9 +33,21 @@ exports.register = async (req, res) => {
     const hash = bcrypt.hashSync(password, salt)
 
     const { result } = await db.query('INSERT INTO usuarios (email, password) VALUES (?, ?)', [email, hash])
-    if (!result.affectedRows) return res.json({ ok: false })
-    return res.json({ ok: true })
+    if (!result.affectedRows) {
+      req.flash('errores', 'Error al agregar el usuario')
+      return res.redirect('/register')
+    }
+    req.flash('messages', 'Bienvenido')
+    req.session.user = { email }
+    return res.redirect('/')
   } catch (err) {
-    return res.json({ ok: false })
+    req.flash('errores', 'Error al agregar el usuario')
+    return res.redirect('/register')
   }
+}
+
+exports.logout = (req, res) => {
+  req.session.user = null
+  req.flash('messages', 'Hasta luego')
+  return res.redirect('/login')
 }

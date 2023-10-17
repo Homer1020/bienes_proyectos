@@ -1,5 +1,10 @@
 <% messages.forEach(message => {%>
-  <div class="alert alert-success mt-4">
+  <div class="alert alert-success mt-4 fade show message-app">
+      <%= message %>
+  </div>
+<%}) %>
+<% errores.forEach(message => {%>
+  <div class="alert alert-danger mt-4 fade show message-app">
       <%= message %>
   </div>
 <%}) %>
