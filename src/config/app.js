@@ -26,6 +26,7 @@ app.use(session({
 app.use(flash())
 app.use((req, res, next) => {
   res.locals.messages = req.flash('messages')
+  res.locals.user = req.session.user
   return next()
 })
 app.use(bodyParser.urlencoded({ extended: false }))

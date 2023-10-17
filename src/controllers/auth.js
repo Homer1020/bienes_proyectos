@@ -8,10 +8,17 @@ exports.loginForm = (req, res) => {
 exports.login = async (req, res) => {
   const { email, password } = req.body
   const { result: { 0: user } } = await db.query('SELECT * FROM usuarios WHERE email = ? LIMIT 1', [email])
-  if (!user) return res.json({ ok: false })
-  if (!bcrypt.compareSync(password, user.password)) return res.json({ ok: false })
+  let error = false
+  if (!user) error = true
+  if (!bcrypt.compareSync(password, user.password)) error = true
+  if (error) {
+    req.flash('errores', 'Usuario o contrasena incorrectos')
+    return res.redirect('/login')
+  }
+  req.flash('messages', 'Bienvenido')
   req.session.user = user
-  return res.redirect('/')
+  if (user.gerencias_id) return res.redirect('/solicitudes')
+  return res.redirect('/bienes')
 }
 
 exports.registerForm = (req, res) => {

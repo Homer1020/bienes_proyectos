@@ -39,7 +39,7 @@
         </form>
     </div>
     
-    <h1 class="mb-4">Solicitud de <%= tipo_solicitud.find(t => t.id == tipo).tipo %> </h2>
+    <h1 class="mb-4">Solicitud de <%= tipo_solicitud.find(t => t.id == tipo)?.tipo %> </h2>
         
     <form class="mb-5" action="/solicitud" method="post">
 
