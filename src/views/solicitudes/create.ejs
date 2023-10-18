@@ -1,48 +1,51 @@
 <%- include('../partials/header') %>
-    <main class="container">
-        <div class="d-flex justify-content-between align-items-center">
-            <h1 class="h5 text-uppercase my-3">Realizar nueva solicitud</h1>
-            <div>
-                <a href="/solicitudes" class="btn btn-sm btn-primary">Listado de bienes</a>
-            </div>
+<main class="container">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="h5 text-uppercase my-3">Realizar nueva solicitud</h1>
+        <div>
+            <a href="/solicitudes" class="btn btn-sm btn-primary">Listado de bienes</a>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="dropdown">
+            <button class="btn btn-secondary btn-small dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Tipo de solicitud
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="?tipo=1">Asignación</a></li>
+                <li><a class="dropdown-item" href="?tipo=2">Traslado</a></li>
+                <li><a class="dropdown-item" href="?tipo=3">Reparación</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <form action="/solicitudes/formulario" method="post">
+        <input type="hidden" name="solicitudes_tipo" value="3">
+
+        <div class="mb-3">
+            <label for="bienes_id" class="form-label">Bienes</label>
+            <select name="bienes_id[]" id="bienes_id" class="form-select select2" multiple="multiple">
+                <option value="" disabled>Seleccione el bien a reparar</option>
+                <% bienes.forEach(bien => {%>
+                <option value="<%= bien.id %>"><%= bien.codigo %> - <%= bien.nombre %></option>
+                <%}) %>
+            </select>
         </div>
 
         <div class="mb-3">
-            <div class="dropdown">
-                <button class="btn btn-secondary btn-small dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Tipo de solicitud
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="?tipo=1">Asignación</a></li>
-                    <li><a class="dropdown-item" href="?tipo=2">Traslado</a></li>
-                    <li><a class="dropdown-item" href="?tipo=3">Reparación</a></li>
-                </ul>
-            </div>
+            <label for="motivo_reparacion" class="form-label">Motivo de la Reparación</label>
+            <select name="motivo_reparacion" id="motivo_reparacion" class="form-select">
+                <option value="" disabled selected>Seleccione el motivo de la reparación</option>
+                <option value="Daños o averías">Daños o averías</option>
+                <option value="Mantenimiento preventivo">Mantenimiento preventivo</option>
+                <option value="Desgate normal">Desgaste normal</option>
+                <option value="Mejoras o actualizaciones">Mejoras o actualizaciones</option>
+            </select>
         </div>
 
-        <form action="/solicitudes/formulario" method="post">
-            <input type="hidden" name="solicitudes_tipo" value="2">
-            
-            <div class="mb-3">
-                <label for="bienes_id" class="form-label">Bienes</label>
-                <select name="bienes_id[]" id="bienes_id" class="form-select select2" multiple="multiple"> 
-                    <% bienes.forEach(bien => {%>
-                        <option value="<%= bien.id %>"><%= bien.codigo %> - <%= bien.nombre %></option>
-                    <%}) %>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label for="sedes_id" class="form-label">Sede de destino</label>
-                <select name="sedes_id" id="sedes_id" class="form-select select2"> 
-                    <% sedes.forEach(sede => {%>
-                        <option value="<%= sede.id %>"><%= sede.nombre %></option>
-                    <%}) %>
-                </select>
-            </div>
-
-            <button class="btn btn-primary">Crear</button>
-        </form>
-    </main>
-    <%- include('../partials/footer') %>
+        <button class="btn btn-primary" type="submit">Enviar solicitud</button>
+    </form>
+</main>
+<%- include('../partials/footer') %>

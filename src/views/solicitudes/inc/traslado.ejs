@@ -1,0 +1,23 @@
+<form action="/solicitudes/formulario" method="post">
+  <input type="hidden" name="solicitudes_tipo" value="2">
+  
+  <div class="mb-3">
+      <label for="bienes_id" class="form-label">Bienes</label>
+      <select name="bienes_id[]" id="bienes_id" class="form-select select2" multiple="multiple"> 
+          <% bienes.forEach(bien => {%>
+              <option value="<%= bien.id %>"><%= bien.codigo %> - <%= bien.nombre %></option>
+          <%}) %>
+      </select>
+  </div>
+
+  <div class="mb-3">
+      <label for="sedes_id" class="form-label">Sede de destino</label>
+      <select name="sedes_id" id="sedes_id" class="form-select select2"> 
+          <% sedes.forEach(sede => {%>
+              <option value="<%= sede.id %>"><%= sede.nombre %></option>
+          <%}) %>
+      </select>
+  </div>
+
+  <button class="btn btn-primary">Crear</button>
+</form>

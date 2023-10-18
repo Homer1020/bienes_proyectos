@@ -44,7 +44,7 @@ exports.create = async (req, res) => {
 
 exports.store = async (req, res) => {
   try {
-    const { solicitudes_tipo, sedes_id } = req.body
+    const { solicitudes_tipo } = req.body
     const user = req.session.user
     const bienes = req.body['bienes_id[]']
     const trabajador = (await db.query('SELECT usuarios.*, trabajadores.gerencias_id FROM usuarios LEFT JOIN trabajadores ON trabajadores.id = usuarios.trabajadores_id WHERE usuarios.id = ?', [user?.id || 1])).result
@@ -56,7 +56,15 @@ exports.store = async (req, res) => {
       await db.query('INSERT INTO bienes_has_solicitudes(bienes_id, solicitudes_id) VALUES (?, ?)', [bien, solicitud.result.insertId])
     }
 
-    await db.query('INSERT INTO traslados(solicitudes_id, sedes_id) VALUES (?, ?)', [solicitud.result.insertId, sedes_id])
+    if (solicitudes_tipo === '2') {
+      const { sedes_id } = req.body
+      await db.query('INSERT INTO traslados(solicitudes_id, sedes_id) VALUES (?, ?)', [solicitud.result.insertId, sedes_id])
+    }
+
+    if (solicitudes_tipo === '3') {
+      const { motivo_reparacion } = req.body
+      await db.query('INSERT INTO reparaciones(motivo, estado) VALUES (?, ?)', [motivo_reparacion, 0])
+    }
   } catch (err) {
     console.log(err)
   }
