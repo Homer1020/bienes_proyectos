@@ -7,8 +7,26 @@ exports.show = (req, res) => {
 }
 
 // Renderiza listado de solicitudes
-exports.index = (req, res) => {
-  return res.render('solicitudes/index')
+exports.index = async (req, res) => {
+  const { result: solicitudes } = await db.query(`
+  SELECT 
+    s.codigo_solicitud,
+    s.fecha_solicitud,
+    b.codigo AS codigo_bien,
+    t.nombre AS nombre_solicitante,
+    t.apellido AS apellido_solicitante,
+    st.tipo AS tipo_solicitud,
+    g.nombre AS gerencia
+  FROM solicitudes AS s
+
+  INNER JOIN bienes_has_solicitudes AS bs ON bs.solicitudes_id = s.id
+  INNER JOIN bienes AS b ON bs.bienes_id = b.id
+  INNER JOIN trabajadores AS t ON t.id = s.trabajadores_id
+  INNER JOIN solicitud_tipo AS st ON st.id = s.solicitudes_tipo
+  INNER JOIN gerencias AS g ON g.id = s.gerencias_id
+  `)
+
+  return res.render('solicitudes/index', { solicitudes })
 }
 
 // Renderiza formulario de creación de solicitud
@@ -39,9 +57,9 @@ exports.store = async (req, res) => {
     }
 
     await db.query('INSERT INTO traslados(solicitudes_id, sedes_id) VALUES (?, ?)', [solicitud.result.insertId, sedes_id])
-
-    return res.json(req.body)
   } catch (err) {
     console.log(err)
   }
+
+  res.redirect('/solicitudes')
 }
