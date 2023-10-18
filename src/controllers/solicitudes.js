@@ -25,22 +25,23 @@ exports.create = async (req, res) => {
 }
 
 exports.store = async (req, res) => {
-  try{
+  try {
     const { solicitudes_tipo, sedes_id } = req.body
     const user = req.session.user
     const bienes = req.body['bienes_id[]']
-    const trabajador = (await db.query('SELECT usuarios.*, trabajadores.gerencias_id FROM usuarios LEFT JOIN trabajadores ON trabajadores.id = usuarios.trabajadores_id WHERE usuarios.id = ?',[user?.id || 5])).result
+    const trabajador = (await db.query('SELECT usuarios.*, trabajadores.gerencias_id FROM usuarios LEFT JOIN trabajadores ON trabajadores.id = usuarios.trabajadores_id WHERE usuarios.id = ?', [user?.id || 1])).result
     const codigo_solicitud = crypto.randomUUID()
 
     const solicitud = await db.query('INSERT INTO solicitudes(codigo_solicitud, estados_solicitud_id, trabajadores_id, gerencias_id, solicitudes_tipo) VALUES (?, ?, ?, ?, ?)', [codigo_solicitud, 1, trabajador[0].trabajadores_id, trabajador[0].gerencias_id, solicitudes_tipo])
-    console.log(solicitud)
-    bienes.forEach(async (bien) => {
+
+    for (const bien of bienes) {
       await db.query('INSERT INTO bienes_has_solicitudes(bienes_id, solicitudes_id) VALUES (?, ?)', [bien, solicitud.result.insertId])
-    });
+    }
+
+    await db.query('INSERT INTO traslados(solicitudes_id, sedes_id) VALUES (?, ?)', [solicitud.result.insertId, sedes_id])
 
     return res.json(req.body)
-  } catch(err) {
+  } catch (err) {
     console.log(err)
   }
-
 }
