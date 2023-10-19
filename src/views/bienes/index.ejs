@@ -15,6 +15,7 @@
                 <th>Código</th>
                 <th>Categoria</th>
                 <th>Gerencia</th>
+                <th>Departamento</th>
                 <th>Ubicación</th>
                 <th>Fecha de ingreso</th>
                 <th>Acciones</th>
@@ -31,7 +32,8 @@
                                 <%= bien.categoria %>
                             </span>
                         </td>
-                        <td><%= bien.trabajador %></td>
+                        <td><%= bien.gerencia %></td>
+                        <td><%= bien.departamento %></td>
                         <td><%= bien.ubicacion %></td>
                         <td>
                             <%= new Date(bien.fecha_ingreso).toLocaleDateString('es-vn', { weekday:"long", year:"numeric", month:"short", day:"numeric"}) %>

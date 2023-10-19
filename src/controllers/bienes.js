@@ -11,9 +11,11 @@ exports.index = async (req, res) => {
   const { result: trabajadores } = await db.query('SELECT * FROM trabajadores')
   const { result: sedes } = await db.query('SELECT * FROM sedes')
   const { result: bienes } = await db.query(`
-    SELECT b.*, c.nombre AS categoria, t.nombre AS trabajador, s.nombre AS ubicacion FROM bienes AS b
+    SELECT b.*, c.nombre AS categoria, t.nombre AS trabajador, s.nombre AS ubicacion, g.nombre AS gerencia, d.nombre AS departamento FROM bienes AS b
     LEFT JOIN categorias AS c ON b.categorias_id = c.id
     LEFT JOIN trabajadores AS t ON b.trabajadores_id = t.id
+    LEFT JOIN gerencias AS g ON t.gerencias_id = g.id
+    LEFT JOIN departamentos AS d ON g.departamentos_id = d.id
     LEFT JOIN sedes AS s ON b.sedes_id = s.id
   `)
   return res.render('bienes/index', {
