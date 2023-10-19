@@ -31,13 +31,13 @@ exports.index = async (req, res) => {
 
 // Renderiza formulario de creación de solicitud
 exports.create = async (req, res) => {
-  const query_solicitud = await db.query('SELECT * FROM solicitud_tipo')
+  const tipo_solicitud = req.query.tipo || '1'
   const query_bienes = await db.query('SELECT * FROM bienes')
   const query_sedes = await db.query('SELECT * FROM sedes')
   const query_trabajadores = await db.query('SELECT * FROM trabajadores')
 
   return res.render('solicitudes/create', {
-    tipo_solicitud: query_solicitud.result,
+    tipo_solicitud,
     bienes: query_bienes.result,
     sedes: query_sedes.result,
     trabajadores: query_trabajadores.result
@@ -75,9 +75,6 @@ exports.store = async (req, res) => {
         const { motivo_reparacion } = req.body
         await db.query('INSERT INTO reparaciones(motivo, estado) VALUES (?, ?)', [motivo_reparacion, 0])
       }
-        break
-
-      default:
         break
     }
     res.redirect('/solicitudes')

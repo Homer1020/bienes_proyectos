@@ -14,13 +14,26 @@
                 Tipo de solicitud
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="?tipo=1">Asignación</a></li>
-                <li><a class="dropdown-item" href="?tipo=2">Traslado</a></li>
-                <li><a class="dropdown-item" href="?tipo=3">Reparación</a></li>
+                <li><a class="dropdown-item" href="?tipo=1"
+                        <%= tipo_solicitud === '1' ? 'selected' : '' %>>Asignación</a></li>
+                <li><a class="dropdown-item" href="?tipo=2" <%= tipo_solicitud === '2' ? 'selected' : '' %>>Traslado</a>
+                </li>
+                <li><a class="dropdown-item" href="?tipo=3"
+                        <%= tipo_solicitud === '3' ? 'selected' : '' %>>Reparación</a></li>
             </ul>
         </div>
     </div>
 
+    <% if(tipo_solicitud === '1') {%>
+    <%- include('./inc/asignacion') %>
+    <% } %>
 
+    <% if(tipo_solicitud === '2') {%>
+    <%- include('./inc/traslado') %>
+    <% } %>
+
+    <% if(tipo_solicitud === '3') {%>
+    <%- include('./inc/reparacion') %>
+    <% } %>
 </main>
 <%- include('../partials/footer') %>
