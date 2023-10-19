@@ -1,0 +1,26 @@
+<form action="/solicitudes/formulario" method="post">
+  <input type="hidden" name="solicitudes_tipo" value="3">
+
+  <div class="mb-3">
+    <label for="bienes_id" class="form-label">Bienes</label>
+    <select name="bienes_id[]" id="bienes_id" class="form-select select2" multiple="multiple">
+      <option value="" disabled>Seleccione el bien a reparar</option>
+      <% bienes.forEach(bien => {%>
+      <option value="<%= bien.id %>"><%= bien.codigo %> - <%= bien.nombre %></option>
+      <%}) %>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="motivo_reparacion" class="form-label">Motivo de la Reparación</label>
+    <select name="motivo_reparacion" id="motivo_reparacion" class="form-select">
+      <option value="" disabled selected>Seleccione el motivo de la reparación</option>
+      <option value="Daños o averías">Daños o averías</option>
+      <option value="Mantenimiento preventivo">Mantenimiento preventivo</option>
+      <option value="Desgate normal">Desgaste normal</option>
+      <option value="Mejoras o actualizaciones">Mejoras o actualizaciones</option>
+    </select>
+  </div>
+
+  <button class="btn btn-primary" type="submit">Enviar solicitud</button>
+</form>

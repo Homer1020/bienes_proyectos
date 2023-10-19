@@ -34,11 +34,13 @@ exports.create = async (req, res) => {
   const query_solicitud = await db.query('SELECT * FROM solicitud_tipo')
   const query_bienes = await db.query('SELECT * FROM bienes')
   const query_sedes = await db.query('SELECT * FROM sedes')
+  const query_trabajadores = await db.query('SELECT * FROM trabajadores')
 
   return res.render('solicitudes/create', {
     tipo_solicitud: query_solicitud.result,
     bienes: query_bienes.result,
-    sedes: query_sedes.result
+    sedes: query_sedes.result,
+    trabajadores: query_trabajadores.result
   })
 }
 
@@ -56,18 +58,30 @@ exports.store = async (req, res) => {
       await db.query('INSERT INTO bienes_has_solicitudes(bienes_id, solicitudes_id) VALUES (?, ?)', [bien, solicitud.result.insertId])
     }
 
-    if (solicitudes_tipo === '2') {
-      const { sedes_id } = req.body
-      await db.query('INSERT INTO traslados(solicitudes_id, sedes_id) VALUES (?, ?)', [solicitud.result.insertId, sedes_id])
-    }
+    switch (solicitudes_tipo) {
+      case '1': {
+        const { trabajador_id } = req.body
+        await db.query('INSERT INTO asignaciones(trabajadores_id, solicitud_id) VALUES (?, ?)', [trabajador_id, solicitud.result.insertId])
+      }
+        break
 
-    if (solicitudes_tipo === '3') {
-      const { motivo_reparacion } = req.body
-      await db.query('INSERT INTO reparaciones(motivo, estado) VALUES (?, ?)', [motivo_reparacion, 0])
+      case '2': {
+        const { sedes_id } = req.body
+        db.query('INSERT INTO traslados(solicitudes_id, sedes_id) VALUES (?, ?)', [solicitud.result.insertId, sedes_id])
+      }
+        break
+
+      case '3': {
+        const { motivo_reparacion } = req.body
+        await db.query('INSERT INTO reparaciones(motivo, estado) VALUES (?, ?)', [motivo_reparacion, 0])
+      }
+        break
+
+      default:
+        break
     }
+    res.redirect('/solicitudes')
   } catch (err) {
     console.log(err)
   }
-
-  res.redirect('/solicitudes')
 }

@@ -1,0 +1,25 @@
+<form action="/solicitudes/formulario" method="post">
+  <input type="hidden" name="solicitudes_tipo" value="1">
+  <div class="mb-3">
+    <label for="bienes_id" class="form-label">Bienes</label>
+    <select name="bienes_id[]" id="bienes_id" class="form-select select2" multiple="multiple">
+      <option value="" disabled>Seleccione el bien a reparar</option>
+      <% bienes.forEach(bien => {%>
+      <option value="<%= bien.id %>"><%= bien.codigo %> - <%= bien.nombre %></option>
+      <%}) %>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="trabajador_id" class="form-label">Trabajador Asignado</label>
+    <select name="trabajador_id" id="trabajador_id" class="form-select select2">
+      <option value="" disabled>Seleccione el trabajador al que se asignará el bien</option>
+      <% trabajadores.forEach(trabajador => {%>
+      <option value="<%= trabajador.id %>"><%= trabajador.id %> - <%= trabajador.nombre %>
+        <%= trabajador.apellido %></option>
+      <%}) %>
+    </select>
+  </div>
+
+  <button class="btn btn-primary">Crear</button>
+</form>
