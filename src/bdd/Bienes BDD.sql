@@ -23,15 +23,17 @@ USE `bienes_system`;
 CREATE TABLE IF NOT EXISTS `asignaciones` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `trabajadores_id` int(11) NOT NULL,
-  `bienes_id` int(11) NOT NULL,
+  `solicitud_id` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_Asignaciones_Trabajador1_idx` (`trabajadores_id`) USING BTREE,
-  KEY `fk_Asignaciones_Bienes1_idx` (`bienes_id`) USING BTREE,
-  CONSTRAINT `fk_Asignaciones_Bienes1` FOREIGN KEY (`bienes_id`) REFERENCES `bienes` (`id`),
+  KEY `fk_Asignaciones_Bienes1_idx` (`solicitud_id`) USING BTREE,
+  CONSTRAINT `fk_Asignaciones_Solicitudes` FOREIGN KEY (`solicitud_id`) REFERENCES `solicitudes` (`id`),
   CONSTRAINT `fk_Asignaciones_Trabajador1` FOREIGN KEY (`trabajadores_id`) REFERENCES `trabajadores` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Volcando datos para la tabla bienes_system.asignaciones: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla bienes_system.asignaciones: ~1 rows (aproximadamente)
+INSERT IGNORE INTO `asignaciones` (`id`, `trabajadores_id`, `solicitud_id`) VALUES
+	(1, 3, 21);
 
 -- Volcando estructura para tabla bienes_system.bienes
 CREATE TABLE IF NOT EXISTS `bienes` (
@@ -53,12 +55,14 @@ CREATE TABLE IF NOT EXISTS `bienes` (
   CONSTRAINT `FK_bienes_sedes` FOREIGN KEY (`sedes_id`) REFERENCES `sedes` (`id`),
   CONSTRAINT `fk_Bienes_Estados_bien1` FOREIGN KEY (`estados_bien_id`) REFERENCES `estados_bien` (`id`),
   CONSTRAINT `fk_Bienes_Trabajador1` FOREIGN KEY (`trabajadores_id`) REFERENCES `trabajadores` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Volcando datos para la tabla bienes_system.bienes: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla bienes_system.bienes: ~4 rows (aproximadamente)
 INSERT IGNORE INTO `bienes` (`id`, `codigo`, `nombre`, `fecha_ingreso`, `estados_bien_id`, `trabajadores_id`, `categorias_id`, `sedes_id`) VALUES
 	(5, 'C2-PC GAMER-1697592375490', 'PC GAMER', '2023-10-01', 1, NULL, 2, 2),
-	(6, 'C2-LAPTOP HP-1697592400249', 'Laptop HP', '2023-07-06', 1, NULL, 2, 1);
+	(6, 'C2-LAPTOP HP-1697592400249', 'Laptop HP', '2023-07-06', 1, NULL, 2, 1),
+	(7, 'C1-AIRE ACONDICIONADO HUAWEI-1697726377426', 'Aire acondicionado Huawei', '2021-06-11', 1, 2, 1, 1),
+	(8, 'C3-ESCRITORIO-1697730116134', 'Escritorio', '2023-10-10', 1, 3, 3, 2);
 
 -- Volcando estructura para tabla bienes_system.bienes_has_solicitudes
 CREATE TABLE IF NOT EXISTS `bienes_has_solicitudes` (
@@ -71,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `bienes_has_solicitudes` (
   CONSTRAINT `fk_Bienes_has_Solicitudes_Solicitudes1` FOREIGN KEY (`solicitudes_id`) REFERENCES `solicitudes` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Volcando datos para la tabla bienes_system.bienes_has_solicitudes: ~12 rows (aproximadamente)
+-- Volcando datos para la tabla bienes_system.bienes_has_solicitudes: ~15 rows (aproximadamente)
 INSERT IGNORE INTO `bienes_has_solicitudes` (`bienes_id`, `solicitudes_id`) VALUES
 	(5, 8),
 	(5, 9),
@@ -81,10 +85,14 @@ INSERT IGNORE INTO `bienes_has_solicitudes` (`bienes_id`, `solicitudes_id`) VALU
 	(5, 14),
 	(5, 15),
 	(5, 17),
+	(5, 18),
+	(5, 19),
+	(5, 21),
 	(6, 8),
 	(6, 9),
 	(6, 12),
-	(6, 16);
+	(6, 16),
+	(6, 20);
 
 -- Volcando estructura para tabla bienes_system.cargos
 CREATE TABLE IF NOT EXISTS `cargos` (
@@ -184,12 +192,13 @@ CREATE TABLE IF NOT EXISTS `reparaciones` (
   `motivo` text NOT NULL,
   `estado` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- Volcando datos para la tabla bienes_system.reparaciones: ~2 rows (aproximadamente)
 INSERT IGNORE INTO `reparaciones` (`id`, `motivo`, `estado`) VALUES
 	(1, 'Desgate normal', 0),
-	(2, 'Daños o averías', 0);
+	(2, 'Daños o averías', 0),
+	(3, 'Desgate normal', 0);
 
 -- Volcando estructura para tabla bienes_system.sedes
 CREATE TABLE IF NOT EXISTS `sedes` (
@@ -223,9 +232,9 @@ CREATE TABLE IF NOT EXISTS `solicitudes` (
   CONSTRAINT `fk_Solicitudes_Gerencias1` FOREIGN KEY (`gerencias_id`) REFERENCES `gerencias` (`id`),
   CONSTRAINT `fk_Solicitudes_Solicitud_tipo1` FOREIGN KEY (`solicitudes_tipo`) REFERENCES `solicitud_tipo` (`id`),
   CONSTRAINT `fk_Solicitudes_Trabajador1` FOREIGN KEY (`trabajadores_id`) REFERENCES `trabajadores` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Volcando datos para la tabla bienes_system.solicitudes: ~8 rows (aproximadamente)
+-- Volcando datos para la tabla bienes_system.solicitudes: ~13 rows (aproximadamente)
 INSERT IGNORE INTO `solicitudes` (`id`, `codigo_solicitud`, `fecha_solicitud`, `estados_solicitud_id`, `trabajadores_id`, `gerencias_id`, `solicitudes_tipo`) VALUES
 	(8, '32e7252e-f643-4d8f-854c-adfb66a8c114', '2023-10-17 21:47:53', 1, 1, 2, 2),
 	(9, 'cc1763d8-ee4b-4cbf-8ceb-a416924b5a40', '2023-10-17 21:48:52', 1, 1, 2, 2),
@@ -236,7 +245,11 @@ INSERT IGNORE INTO `solicitudes` (`id`, `codigo_solicitud`, `fecha_solicitud`, `
 	(14, '10e6b80e-8c83-4279-ad8a-0553c302cadc', '2023-10-18 12:57:35', 1, 1, 2, 3),
 	(15, '4c9c98ba-75a2-426e-ad16-3e924425cccf', '2023-10-18 12:59:54', 1, 1, 2, 3),
 	(16, 'dc5d7771-ae4e-41a5-bbc4-522603391282', '2023-10-18 13:01:44', 1, 1, 2, 3),
-	(17, '7dffbc41-268e-4d40-8c3d-76ebe9088860', '2023-10-18 13:03:00', 1, 1, 2, 3);
+	(17, '7dffbc41-268e-4d40-8c3d-76ebe9088860', '2023-10-18 13:03:00', 1, 1, 2, 3),
+	(18, '7a5fee0b-e93e-4483-9fad-b17b8c354779', '2023-10-19 10:38:35', 1, 4, 3, 3),
+	(19, '6a8374f4-7553-4694-a6da-3d981be92a47', '2023-10-19 11:25:13', 1, 4, 3, 1),
+	(20, '23517f32-b6a2-4f5f-843c-54f5fde3e715', '2023-10-19 11:25:55', 1, 4, 3, 1),
+	(21, '23c56c88-a77d-4c41-b0ff-c3c04c6c64da', '2023-10-19 11:27:07', 1, 4, 3, 1);
 
 -- Volcando estructura para tabla bienes_system.solicitud_tipo
 CREATE TABLE IF NOT EXISTS `solicitud_tipo` (
@@ -246,7 +259,7 @@ CREATE TABLE IF NOT EXISTS `solicitud_tipo` (
   UNIQUE KEY `tipo_UNIQUE` (`tipo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Volcando datos para la tabla bienes_system.solicitud_tipo: ~4 rows (aproximadamente)
+-- Volcando datos para la tabla bienes_system.solicitud_tipo: ~3 rows (aproximadamente)
 INSERT IGNORE INTO `solicitud_tipo` (`id`, `tipo`) VALUES
 	(1, 'Asignacion'),
 	(3, 'Reparacion'),
@@ -287,7 +300,7 @@ CREATE TABLE IF NOT EXISTS `traslados` (
   CONSTRAINT `fk_Traslados_Solicitudes1` FOREIGN KEY (`solicitudes_id`) REFERENCES `solicitudes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Volcando datos para la tabla bienes_system.traslados: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla bienes_system.traslados: ~2 rows (aproximadamente)
 INSERT IGNORE INTO `traslados` (`id`, `solicitudes_id`, `sedes_id`, `comprobante`) VALUES
 	(1, 9, 1, ''),
 	(2, 11, 1, ''),
@@ -301,11 +314,12 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `trabajadores_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nickname` (`email`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Volcando datos para la tabla bienes_system.usuarios: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla bienes_system.usuarios: ~2 rows (aproximadamente)
 INSERT IGNORE INTO `usuarios` (`id`, `email`, `password`, `trabajadores_id`) VALUES
-	(6, 'asd@gmail.com', '$2b$10$Qqw0PtGrbUNz7N32vInsO.E5MgVz9DGhjn6NCiUfjjOG8Px/zyCPO', 1);
+	(6, 'asd@gmail.com', '$2b$10$Qqw0PtGrbUNz7N32vInsO.E5MgVz9DGhjn6NCiUfjjOG8Px/zyCPO', 1),
+	(8, 'abcd@gmail.com', '$2b$10$LstoFJipoIniWxRAWL4M5eIF9FZNB6QzqNuLF5HGLpCnVuv9kl4su', 4);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
