@@ -24,6 +24,7 @@ exports.index = async (req, res) => {
   INNER JOIN trabajadores AS t ON t.id = s.trabajadores_id
   INNER JOIN solicitud_tipo AS st ON st.id = s.solicitudes_tipo
   INNER JOIN gerencias AS g ON g.id = s.gerencias_id
+  ORDER BY s.fecha_solicitud DESC
   `)
 
   return res.render('solicitudes/index', { solicitudes })
