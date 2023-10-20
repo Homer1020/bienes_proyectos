@@ -27,7 +27,31 @@ exports.index = async (req, res) => {
   ORDER BY s.fecha_solicitud DESC
   `)
 
-  return res.render('solicitudes/index', { solicitudes })
+  const agrupado = solicitudes.reduce((acc, solicitud) => {
+    const codigo_solicitud = solicitud.codigo_solicitud
+    const bienes = acc.find(grupo => grupo.codigo_solicitud === codigo_solicitud)
+    if (!bienes) {
+      acc.push({
+        codigo_solicitud,
+        bienes: [solicitud.codigo_bien],
+        fecha_solicitud: solicitud.fecha_solicitud,
+        nombre_solicitante: solicitud.nombre_solicitante,
+        apellido_solicitante: solicitud.apellido_solicitante,
+        tipo_solicitud: solicitud.tipo_solicitud,
+        gerencia: solicitud.gerencia
+      })
+    } else {
+      bienes.bienes.push(solicitud.codigo_bien)
+      bienes.fecha_solicitud = solicitud.fecha_solicitud
+      bienes.nombre_solicitante = solicitud.nombre_solicitante
+      bienes.apellido_solicitante = solicitud.apellido_solicitante
+      bienes.tipo_solicitud = solicitud.tipo_solicitud
+      bienes.gerencia = solicitud.gerencia
+    }
+    return acc
+  }, [])
+
+  return res.render('solicitudes/index', { solicitudes: agrupado })
 }
 
 // Renderiza formulario de creación de solicitud
