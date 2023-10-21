@@ -74,7 +74,6 @@ exports.index = async (req, res) => {
     return acc
   }, [])
 
-  console.log(agrupado)
   return res.render('solicitudes/index', { solicitudes: agrupado })
 }
 
