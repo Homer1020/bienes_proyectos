@@ -1,0 +1,38 @@
+<% solicitudes.forEach(solicitud => { %>
+<div class="modal fade" id="detalles_solicitud_modal<%= solicitud.codigo_solicitud %>" tabindex="-1"
+  aria-labelledby="detalles_solicitud" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 text-uppercase">Detalles de solicitud</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <% if(solicitud.tipo_solicitud === 'Traslado') { %>
+        <h3>Sede de destino</h3>
+        <p><%= solicitud.sede_destino %></p>
+        <% } %>
+
+        <% if(solicitud.tipo_solicitud === 'Asignacion') { %>
+        <h3>Trabajador asignado</h3>
+        <p><%= solicitud.trabajador_asignado_id %> - <%= solicitud.nombre_trabajador_asignado %>
+          <%= solicitud.apellido_trabajador_asignado%></p>
+        <% } %>
+
+        <% if(solicitud.tipo_solicitud === 'Reparacion') { %>
+        <div>
+          <h3>Motivo Reparacion</h3>
+          <p><%= solicitud.motivo_reparacion %></p>
+        </div>
+
+        <div>
+          <h3>Estado de la Reparacion</h3>
+          <p><%= solicitud.estado_reparacion === 0 ? 'En curso' : 'Culminada' %></p>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+<% }) %>

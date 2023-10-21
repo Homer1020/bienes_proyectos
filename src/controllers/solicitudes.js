@@ -16,7 +16,13 @@ exports.index = async (req, res) => {
     t.nombre AS nombre_solicitante,
     t.apellido AS apellido_solicitante,
     st.tipo AS tipo_solicitud,
-    g.nombre AS gerencia
+    g.nombre AS gerencia,
+    sd.nombre AS sede_destino,
+    rep.motivo AS motivo_reparacion,
+    rep.estado AS estado_reparacion,
+    asig.trabajadores_id AS trabajador_asignado_id,
+    t_asignado.nombre AS nombre_trabajador_asignado,
+    t_asignado.apellido AS apellido_trabajador_asignado
   FROM solicitudes AS s
 
   INNER JOIN bienes_has_solicitudes AS bs ON bs.solicitudes_id = s.id
@@ -24,6 +30,11 @@ exports.index = async (req, res) => {
   INNER JOIN trabajadores AS t ON t.id = s.trabajadores_id
   INNER JOIN solicitud_tipo AS st ON st.id = s.solicitudes_tipo
   INNER JOIN gerencias AS g ON g.id = s.gerencias_id
+  LEFT JOIN traslados AS tr ON tr.solicitudes_id = s.id
+  LEFT JOIN sedes AS sd ON sd.id = tr.sedes_id
+  LEFT JOIN reparaciones AS rep ON rep.solicitud_id = s.id
+  LEFT JOIN asignaciones AS asig ON asig.solicitud_id = s.id
+  LEFT JOIN trabajadores AS t_asignado ON t_asignado.id = asig.trabajadores_id
   ORDER BY s.fecha_solicitud DESC
   `)
 
@@ -38,7 +49,13 @@ exports.index = async (req, res) => {
         nombre_solicitante: solicitud.nombre_solicitante,
         apellido_solicitante: solicitud.apellido_solicitante,
         tipo_solicitud: solicitud.tipo_solicitud,
-        gerencia: solicitud.gerencia
+        gerencia: solicitud.gerencia,
+        sede_destino: solicitud.sede_destino,
+        motivo_reparacion: solicitud.motivo_reparacion,
+        estado_reparacion: solicitud.estado_reparacion,
+        trabajador_asignado_id: solicitud.trabajador_asignado_id,
+        nombre_trabajador_asignado: solicitud.nombre_trabajador_asignado,
+        apellido_trabajador_asignado: solicitud.apellido_trabajador_asignado
       })
     } else {
       bienes.bienes.push(solicitud.codigo_bien)
@@ -47,10 +64,17 @@ exports.index = async (req, res) => {
       bienes.apellido_solicitante = solicitud.apellido_solicitante
       bienes.tipo_solicitud = solicitud.tipo_solicitud
       bienes.gerencia = solicitud.gerencia
+      bienes.sede_destino = solicitud.sede_destino
+      bienes.motivo_reparacion = solicitud.motivo_reparacion
+      bienes.estado_reparacion = solicitud.estado_reparacion
+      bienes.trabajador_asignado_id = solicitud.trabajador_asignado_id
+      bienes.nombre_trabajador_asignado = solicitud.nombre_trabajador_asignado
+      bienes.apellido_trabajador_asignado = solicitud.apellido_trabajador_asignado
     }
     return acc
   }, [])
 
+  console.log(agrupado)
   return res.render('solicitudes/index', { solicitudes: agrupado })
 }
 
@@ -98,7 +122,7 @@ exports.store = async (req, res) => {
 
       case '3': {
         const { motivo_reparacion } = req.body
-        await db.query('INSERT INTO reparaciones(motivo, estado) VALUES (?, ?)', [motivo_reparacion, 0])
+        await db.query('INSERT INTO reparaciones(motivo, estado, solicitud_id) VALUES (?, ?, ?)', [motivo_reparacion, 0, solicitud.result.insertId])
       }
         break
     }

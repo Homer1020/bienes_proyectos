@@ -29,11 +29,12 @@ CREATE TABLE IF NOT EXISTS `asignaciones` (
   KEY `fk_Asignaciones_Bienes1_idx` (`solicitud_id`) USING BTREE,
   CONSTRAINT `fk_Asignaciones_Solicitudes` FOREIGN KEY (`solicitud_id`) REFERENCES `solicitudes` (`id`),
   CONSTRAINT `fk_Asignaciones_Trabajador1` FOREIGN KEY (`trabajadores_id`) REFERENCES `trabajadores` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Volcando datos para la tabla bienes_system.asignaciones: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla bienes_system.asignaciones: ~2 rows (aproximadamente)
 INSERT IGNORE INTO `asignaciones` (`id`, `trabajadores_id`, `solicitud_id`) VALUES
-	(1, 3, 21);
+	(1, 3, 21),
+	(2, 2, 22);
 
 -- Volcando estructura para tabla bienes_system.bienes
 CREATE TABLE IF NOT EXISTS `bienes` (
@@ -75,24 +76,20 @@ CREATE TABLE IF NOT EXISTS `bienes_has_solicitudes` (
   CONSTRAINT `fk_Bienes_has_Solicitudes_Solicitudes1` FOREIGN KEY (`solicitudes_id`) REFERENCES `solicitudes` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Volcando datos para la tabla bienes_system.bienes_has_solicitudes: ~15 rows (aproximadamente)
+-- Volcando datos para la tabla bienes_system.bienes_has_solicitudes: ~12 rows (aproximadamente)
 INSERT IGNORE INTO `bienes_has_solicitudes` (`bienes_id`, `solicitudes_id`) VALUES
 	(5, 8),
 	(5, 9),
-	(5, 11),
 	(5, 12),
-	(5, 13),
-	(5, 14),
-	(5, 15),
-	(5, 17),
-	(5, 18),
 	(5, 19),
 	(5, 21),
 	(6, 8),
 	(6, 9),
 	(6, 12),
-	(6, 16),
-	(6, 20);
+	(6, 20),
+	(7, 22),
+	(7, 25),
+	(8, 22);
 
 -- Volcando estructura para tabla bienes_system.cargos
 CREATE TABLE IF NOT EXISTS `cargos` (
@@ -117,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `categorias` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Volcando datos para la tabla bienes_system.categorias: ~4 rows (aproximadamente)
+-- Volcando datos para la tabla bienes_system.categorias: ~3 rows (aproximadamente)
 INSERT IGNORE INTO `categorias` (`id`, `nombre`) VALUES
 	(1, 'Electrónica'),
 	(2, 'Informática'),
@@ -191,14 +188,15 @@ CREATE TABLE IF NOT EXISTS `reparaciones` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `motivo` text NOT NULL,
   `estado` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `solicitud_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `FK_Solicitudes_Reparaciones` (`solicitud_id`) USING BTREE,
+  CONSTRAINT `FK_reparaciones_solicitudes` FOREIGN KEY (`solicitud_id`) REFERENCES `solicitudes` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Volcando datos para la tabla bienes_system.reparaciones: ~2 rows (aproximadamente)
-INSERT IGNORE INTO `reparaciones` (`id`, `motivo`, `estado`) VALUES
-	(1, 'Desgate normal', 0),
-	(2, 'Daños o averías', 0),
-	(3, 'Desgate normal', 0);
+-- Volcando datos para la tabla bienes_system.reparaciones: ~1 rows (aproximadamente)
+INSERT IGNORE INTO `reparaciones` (`id`, `motivo`, `estado`, `solicitud_id`) VALUES
+	(5, 'Mantenimiento preventivo', 0, 25);
 
 -- Volcando estructura para tabla bienes_system.sedes
 CREATE TABLE IF NOT EXISTS `sedes` (
@@ -232,24 +230,20 @@ CREATE TABLE IF NOT EXISTS `solicitudes` (
   CONSTRAINT `fk_Solicitudes_Gerencias1` FOREIGN KEY (`gerencias_id`) REFERENCES `gerencias` (`id`),
   CONSTRAINT `fk_Solicitudes_Solicitud_tipo1` FOREIGN KEY (`solicitudes_tipo`) REFERENCES `solicitud_tipo` (`id`),
   CONSTRAINT `fk_Solicitudes_Trabajador1` FOREIGN KEY (`trabajadores_id`) REFERENCES `trabajadores` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Volcando datos para la tabla bienes_system.solicitudes: ~13 rows (aproximadamente)
+-- Volcando datos para la tabla bienes_system.solicitudes: ~10 rows (aproximadamente)
 INSERT IGNORE INTO `solicitudes` (`id`, `codigo_solicitud`, `fecha_solicitud`, `estados_solicitud_id`, `trabajadores_id`, `gerencias_id`, `solicitudes_tipo`) VALUES
 	(8, '32e7252e-f643-4d8f-854c-adfb66a8c114', '2023-10-17 21:47:53', 1, 1, 2, 2),
 	(9, 'cc1763d8-ee4b-4cbf-8ceb-a416924b5a40', '2023-10-17 21:48:52', 1, 1, 2, 2),
 	(10, '89181385-0971-48d8-b7d7-5172a6f21878', '2023-10-17 21:56:53', 1, 1, 2, 2),
 	(11, '2b5a9a28-6931-4ba8-abc5-9831b6a1f8d3', '2023-10-17 22:02:29', 1, 1, 2, 2),
 	(12, '9ff335c7-5356-4b21-8d7e-56962524c1c1', '2023-10-18 10:58:15', 1, 1, 2, 2),
-	(13, 'ed41d9b9-9254-4363-b94a-92500002a382', '2023-10-18 12:54:54', 1, 1, 2, 3),
-	(14, '10e6b80e-8c83-4279-ad8a-0553c302cadc', '2023-10-18 12:57:35', 1, 1, 2, 3),
-	(15, '4c9c98ba-75a2-426e-ad16-3e924425cccf', '2023-10-18 12:59:54', 1, 1, 2, 3),
-	(16, 'dc5d7771-ae4e-41a5-bbc4-522603391282', '2023-10-18 13:01:44', 1, 1, 2, 3),
-	(17, '7dffbc41-268e-4d40-8c3d-76ebe9088860', '2023-10-18 13:03:00', 1, 1, 2, 3),
-	(18, '7a5fee0b-e93e-4483-9fad-b17b8c354779', '2023-10-19 10:38:35', 1, 4, 3, 3),
 	(19, '6a8374f4-7553-4694-a6da-3d981be92a47', '2023-10-19 11:25:13', 1, 4, 3, 1),
 	(20, '23517f32-b6a2-4f5f-843c-54f5fde3e715', '2023-10-19 11:25:55', 1, 4, 3, 1),
-	(21, '23c56c88-a77d-4c41-b0ff-c3c04c6c64da', '2023-10-19 11:27:07', 1, 4, 3, 1);
+	(21, '23c56c88-a77d-4c41-b0ff-c3c04c6c64da', '2023-10-19 11:27:07', 1, 4, 3, 1),
+	(22, 'aae0e9dd-07bc-4c25-b5ef-6b2d0b4b245a', '2023-10-20 09:43:49', 1, 1, 2, 1),
+	(25, 'f88e3fd0-9d1f-475e-ab4a-667174559cc0', '2023-10-20 19:19:37', 1, 1, 2, 3);
 
 -- Volcando estructura para tabla bienes_system.solicitud_tipo
 CREATE TABLE IF NOT EXISTS `solicitud_tipo` (
@@ -300,7 +294,7 @@ CREATE TABLE IF NOT EXISTS `traslados` (
   CONSTRAINT `fk_Traslados_Solicitudes1` FOREIGN KEY (`solicitudes_id`) REFERENCES `solicitudes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Volcando datos para la tabla bienes_system.traslados: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla bienes_system.traslados: ~3 rows (aproximadamente)
 INSERT IGNORE INTO `traslados` (`id`, `solicitudes_id`, `sedes_id`, `comprobante`) VALUES
 	(1, 9, 1, ''),
 	(2, 11, 1, ''),
