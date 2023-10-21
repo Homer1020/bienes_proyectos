@@ -35,6 +35,7 @@ exports.index = async (req, res) => {
   LEFT JOIN reparaciones AS rep ON rep.solicitud_id = s.id
   LEFT JOIN asignaciones AS asig ON asig.solicitud_id = s.id
   LEFT JOIN trabajadores AS t_asignado ON t_asignado.id = asig.trabajadores_id
+  ${req?.session?.user?.trabajadores_id ? 'WHERE s.trabajadores_id = ' + req?.session?.user?.trabajadores_id : ''}
   ORDER BY s.fecha_solicitud DESC
   `)
 

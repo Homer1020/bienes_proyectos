@@ -36,6 +36,10 @@ exports.index = async (req, res) => {
 exports.store = async (req, res) => {
   try {
     const { nombre, fecha_ingreso, categorias_id, trabajadores_id, sedes_id } = req.body
+    if (!nombre || !fecha_ingreso || !categorias_id) {
+      req.flash('errores', 'Los campos nombre, fecha de ingreso, categoria son obligatorios')
+      return res.redirect('/bienes')
+    }
     const codigo = `C${categorias_id}-${nombre.toUpperCase()}-${Date.now()}`
     await db.query('INSERT INTO bienes (nombre, fecha_ingreso, categorias_id, trabajadores_id, sedes_id, codigo, estados_bien_id) VALUES (?, ?, ?, ?, ?, ?, ?)', [nombre, fecha_ingreso, categorias_id, trabajadores_id, sedes_id, codigo, 1])
     req.flash('messages', 'Se creo el bien ' + codigo)

@@ -18,7 +18,7 @@ exports.login = async (req, res) => {
   req.flash('messages', 'Bienvenido')
   req.session.user = user
   if (user.gerencias_id) return res.redirect('/solicitudes')
-  return res.redirect('/bienes')
+  return res.redirect('/')
 }
 
 exports.registerForm = (req, res) => {

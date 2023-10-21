@@ -17,5 +17,5 @@ const alert = window.bootstrap.Alert.getOrCreateInstance('.message-app')
 if (alert) {
   setTimeout(() => {
     alert.close()
-  }, 2000)
+  }, 3000)
 }
