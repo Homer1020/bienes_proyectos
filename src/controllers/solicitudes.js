@@ -80,7 +80,7 @@ exports.index = async (req, res) => {
 // Renderiza formulario de creación de solicitud
 exports.create = async (req, res) => {
   const tipo_solicitud = req.query.tipo || '1'
-  const query_bienes = await db.query('SELECT * FROM bienes')
+  const query_bienes = await db.query('SELECT * FROM bienes WHERE estado = 1')
   const query_sedes = await db.query('SELECT * FROM sedes')
   const query_trabajadores = await db.query('SELECT * FROM trabajadores')
 

@@ -12,6 +12,7 @@ router.get('/', (req, res) => {
 router.get('/bienes', bienesController.index)
 router.post('/bienes/nuevo', bienesController.store)
 router.get('/bienes/:id', bienesController.show)
+router.post('/bienes/delete/:id', bienesController.softDestroy)
 
 router.get('/solicitudes', solicitudesController.index)
 router.get('/solicitudes/formulario', solicitudesController.create)

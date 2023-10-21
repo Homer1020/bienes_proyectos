@@ -23,7 +23,7 @@
     <select id="trabajadores_id" name="trabajadores_id" class="form-select select2 select2-onmodal">
       <option disabled selected hidden>Seleccione el trabajador</option>
       <% trabajadores.forEach(tab => {%>
-        <option value="<%= tab.id %>"><%= tab.nombre %></option>
+        <option value="<%= tab.id %>"><%= tab.nombre %> <%= tab.apellido %> (<%= tab.departamento %>) </option>
       <%}) %>
     </select>
   </div>
