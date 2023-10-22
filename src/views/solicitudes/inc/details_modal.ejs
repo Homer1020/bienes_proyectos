@@ -8,41 +8,75 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-          
+
         <ul class="list-group mb-3">
-          <li class="list-group-item">Codigo de solicitud: <div class="badge bg-primary"><%= solicitud.codigo_solicitud %></div></li>
-          <li class="list-group-item">Gerencia encargada: <div class="badge bg-danger"><%= solicitud.gerencia %></div></li>
-          <li class="list-group-item">Trabajador Encargado: <%= solicitud.nombre_solicitante %> <%= solicitud.apellido_solicitante %></li>
-          <li class="list-group-item">Tipo de solicitud: <div class="badge bg-info"><%= solicitud.tipo_solicitud %></div></li>
+          <li class="list-group-item">Codigo de solicitud: <div class="badge bg-primary">
+              <%= solicitud.codigo_solicitud %></div>
+          </li>
+          <li class="list-group-item">Gerencia encargada: <div class="badge bg-danger"><%= solicitud.gerencia %></div>
+          </li>
+          <li class="list-group-item">Trabajador Encargado: <%= solicitud.nombre_solicitante %>
+            <%= solicitud.apellido_solicitante %></li>
+          <li class="list-group-item">Tipo de solicitud: <div class="badge bg-info"><%= solicitud.tipo_solicitud %>
+            </div>
+          </li>
           <li class="list-group-item">Bienes: <% solicitud.bienes.forEach(cod => {%>
-            <div class="badge bg-success"><%= cod %></div>  
-          <%}) %></li>
+            <div class="badge bg-success"><%= cod %></div>
+            <%}) %></li>
+
+          <li class="list-group-item">Estado de Solicitud: 
+
+            <div class="
+              badge
+              <% if(solicitud.estado_solicitud === 'En espera') {%>
+                bg-info
+              <% } %> 
+
+              <% if(solicitud.estado_solicitud === 'Aceptado') {%>
+                bg-success
+              <% } %> 
+              <% if(solicitud.estado_solicitud === 'Rechazado') {%>
+                bg-danger
+              <% } %> 
+              estado_solicitud_<%= solicitud.codigo_solicitud %>">
+              <%= solicitud.estado_solicitud %>
+            </div>
+          </li>
         </ul>
-      
+
         <% if(solicitud.tipo_solicitud === 'Traslado') { %>
-          <h3 class="h6 text-uppercase">Sede de destino</h3>
-          <p><%= solicitud.sede_destino %></p>
+        <h3 class="h6 text-uppercase">Sede de destino</h3>
+        <p><%= solicitud.sede_destino %></p>
         <% } %>
 
         <% if(solicitud.tipo_solicitud === 'Asignacion') { %>
-          <h3 class="h6 text-uppercase">Trabajador asignado</h3>
-          <p>#<%= solicitud.trabajador_asignado_id %> - <%= solicitud.nombre_trabajador_asignado %>
-            <%= solicitud.apellido_trabajador_asignado%></p>
+        <h3 class="h6 text-uppercase">Trabajador asignado</h3>
+        <p>#<%= solicitud.trabajador_asignado_id %> - <%= solicitud.nombre_trabajador_asignado %>
+          <%= solicitud.apellido_trabajador_asignado%></p>
         <% } %>
 
         <% if(solicitud.tipo_solicitud === 'Reparacion') { %>
-          <div>
-            <h3 class="h6 text-uppercase">Motivo Reparacion</h3>
-            <p><%= solicitud.motivo_reparacion %></p>
-          </div>
+        <div>
+          <h3 class="h6 text-uppercase">Motivo Reparacion</h3>
+          <p><%= solicitud.motivo_reparacion %></p>
+        </div>
 
+        <div>
+          <h3 class="h6 text-uppercase">Estado de la Reparacion</h3>
+          <p><%= solicitud.estado_reparacion === 0 ? 'En curso' : 'Culminada' %></p>
+        </div>
+        <% } %>
+
+        <% if(!user?.trabajadores_id) { %>
+          <!-- Botones que actualizan -->
           <div>
-            <h3 class="h6 text-uppercase">Estado de la Reparacion</h3>
-            <p><%= solicitud.estado_reparacion === 0 ? 'En curso' : 'Culminada' %></p>
+            <button class="btn btn-success" data-id="<%= solicitud.codigo_solicitud %>">Aceptar</button>
+            <button class="btn btn-danger" data-id="<%= solicitud.codigo_solicitud %>">Rechazar</button>
           </div>
         <% } %>
       </div>
     </div>
   </div>
 </div>
+<script src="./assets/js/updateSolicitud.js"></script>
 <% }) %>

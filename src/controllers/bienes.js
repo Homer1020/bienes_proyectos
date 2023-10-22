@@ -13,7 +13,7 @@ exports.index = async (req, res) => {
     LEFT JOIN gerencias AS g ON t.gerencias_id = g.id
     LEFT JOIN departamentos AS d ON g.departamentos_id = d.id
   `)
-  console.log(trabajadores)
+
   const { result: sedes } = await db.query('SELECT * FROM sedes')
   const { result: bienes } = await db.query(`
     SELECT b.*, c.nombre AS categoria, t.nombre AS trabajador, s.nombre AS ubicacion, g.nombre AS gerencia, d.nombre AS departamento FROM bienes AS b

@@ -12,6 +12,7 @@ exports.index = async (req, res) => {
   SELECT 
     s.codigo_solicitud,
     s.fecha_solicitud,
+    es.estado as estado_solicitud,
     b.codigo AS codigo_bien,
     t.nombre AS nombre_solicitante,
     t.apellido AS apellido_solicitante,
@@ -25,6 +26,7 @@ exports.index = async (req, res) => {
     t_asignado.apellido AS apellido_trabajador_asignado
   FROM solicitudes AS s
 
+  INNER JOIN estados_solicitud AS es ON es.id = s.estados_solicitud_id
   INNER JOIN bienes_has_solicitudes AS bs ON bs.solicitudes_id = s.id
   INNER JOIN bienes AS b ON bs.bienes_id = b.id
   INNER JOIN trabajadores AS t ON t.id = s.trabajadores_id
@@ -47,6 +49,7 @@ exports.index = async (req, res) => {
         codigo_solicitud,
         bienes: [solicitud.codigo_bien],
         fecha_solicitud: solicitud.fecha_solicitud,
+        estado_solicitud: solicitud.estado_solicitud,
         nombre_solicitante: solicitud.nombre_solicitante,
         apellido_solicitante: solicitud.apellido_solicitante,
         tipo_solicitud: solicitud.tipo_solicitud,
@@ -61,6 +64,7 @@ exports.index = async (req, res) => {
     } else {
       bienes.bienes.push(solicitud.codigo_bien)
       bienes.fecha_solicitud = solicitud.fecha_solicitud
+      bienes.estado_solicitud = solicitud.estado_solicitud
       bienes.nombre_solicitante = solicitud.nombre_solicitante
       bienes.apellido_solicitante = solicitud.apellido_solicitante
       bienes.tipo_solicitud = solicitud.tipo_solicitud
@@ -127,6 +131,16 @@ exports.store = async (req, res) => {
         break
     }
     res.redirect('/solicitudes')
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+exports.update = async (req, res) => {
+  try {
+    const { id, estado_id } = req.body
+    await db.query('UPDATE solicitudes SET estados_solicitud_id = ? WHERE codigo_solicitud = ?', [estado_id, id])
+    res.json({ succes: true })
   } catch (err) {
     console.log(err)
   }

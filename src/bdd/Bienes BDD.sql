@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `bienes` (
   `trabajadores_id` int(11) DEFAULT NULL,
   `categorias_id` int(11) DEFAULT NULL,
   `sedes_id` int(11) DEFAULT NULL,
+  `estado` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `codigo_UNIQUE` (`codigo`),
   KEY `fk_Bienes_Estados_bien1_idx` (`estados_bien_id`) USING BTREE,
@@ -59,11 +60,11 @@ CREATE TABLE IF NOT EXISTS `bienes` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- Volcando datos para la tabla bienes_system.bienes: ~4 rows (aproximadamente)
-INSERT IGNORE INTO `bienes` (`id`, `codigo`, `nombre`, `fecha_ingreso`, `estados_bien_id`, `trabajadores_id`, `categorias_id`, `sedes_id`) VALUES
-	(5, 'C2-PC GAMER-1697592375490', 'PC GAMER', '2023-10-01', 1, NULL, 2, 2),
-	(6, 'C2-LAPTOP HP-1697592400249', 'Laptop HP', '2023-07-06', 1, NULL, 2, 1),
-	(7, 'C1-AIRE ACONDICIONADO HUAWEI-1697726377426', 'Aire acondicionado Huawei', '2021-06-11', 1, 2, 1, 1),
-	(8, 'C3-ESCRITORIO-1697730116134', 'Escritorio', '2023-10-10', 1, 3, 3, 2);
+INSERT IGNORE INTO `bienes` (`id`, `codigo`, `nombre`, `fecha_ingreso`, `estados_bien_id`, `trabajadores_id`, `categorias_id`, `sedes_id`, `estado`) VALUES
+	(5, 'C2-PC GAMER-1697592375490', 'PC GAMER', '2023-10-01', 1, NULL, 2, 2, 1),
+	(6, 'C2-LAPTOP HP-1697592400249', 'Laptop HP', '2023-07-06', 1, NULL, 2, 1, 1),
+	(7, 'C1-AIRE ACONDICIONADO HUAWEI-1697726377426', 'Aire acondicionado Huawei', '2021-06-11', 1, 2, 1, 1, 1),
+	(8, 'C3-ESCRITORIO-1697730116134', 'Escritorio', '2023-10-10', 1, 3, 3, 2, 1);
 
 -- Volcando estructura para tabla bienes_system.bienes_has_solicitudes
 CREATE TABLE IF NOT EXISTS `bienes_has_solicitudes` (
@@ -238,12 +239,12 @@ INSERT IGNORE INTO `solicitudes` (`id`, `codigo_solicitud`, `fecha_solicitud`, `
 	(9, 'cc1763d8-ee4b-4cbf-8ceb-a416924b5a40', '2023-10-17 21:48:52', 1, 1, 2, 2),
 	(10, '89181385-0971-48d8-b7d7-5172a6f21878', '2023-10-17 21:56:53', 1, 1, 2, 2),
 	(11, '2b5a9a28-6931-4ba8-abc5-9831b6a1f8d3', '2023-10-17 22:02:29', 1, 1, 2, 2),
-	(12, '9ff335c7-5356-4b21-8d7e-56962524c1c1', '2023-10-18 10:58:15', 1, 1, 2, 2),
+	(12, '9ff335c7-5356-4b21-8d7e-56962524c1c1', '2023-10-18 10:58:15', 2, 1, 2, 2),
 	(19, '6a8374f4-7553-4694-a6da-3d981be92a47', '2023-10-19 11:25:13', 1, 4, 3, 1),
-	(20, '23517f32-b6a2-4f5f-843c-54f5fde3e715', '2023-10-19 11:25:55', 1, 4, 3, 1),
-	(21, '23c56c88-a77d-4c41-b0ff-c3c04c6c64da', '2023-10-19 11:27:07', 1, 4, 3, 1),
-	(22, 'aae0e9dd-07bc-4c25-b5ef-6b2d0b4b245a', '2023-10-20 09:43:49', 1, 1, 2, 1),
-	(25, 'f88e3fd0-9d1f-475e-ab4a-667174559cc0', '2023-10-20 19:19:37', 1, 1, 2, 3);
+	(20, '23517f32-b6a2-4f5f-843c-54f5fde3e715', '2023-10-19 11:25:55', 3, 4, 3, 1),
+	(21, '23c56c88-a77d-4c41-b0ff-c3c04c6c64da', '2023-10-19 11:27:07', 3, 4, 3, 1),
+	(22, 'aae0e9dd-07bc-4c25-b5ef-6b2d0b4b245a', '2023-10-20 09:43:49', 3, 1, 2, 1),
+	(25, 'f88e3fd0-9d1f-475e-ab4a-667174559cc0', '2023-10-20 19:19:37', 3, 1, 2, 3);
 
 -- Volcando estructura para tabla bienes_system.solicitud_tipo
 CREATE TABLE IF NOT EXISTS `solicitud_tipo` (
@@ -308,12 +309,13 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `trabajadores_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nickname` (`email`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Volcando datos para la tabla bienes_system.usuarios: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla bienes_system.usuarios: ~3 rows (aproximadamente)
 INSERT IGNORE INTO `usuarios` (`id`, `email`, `password`, `trabajadores_id`) VALUES
 	(6, 'asd@gmail.com', '$2b$10$Qqw0PtGrbUNz7N32vInsO.E5MgVz9DGhjn6NCiUfjjOG8Px/zyCPO', 1),
-	(8, 'abcd@gmail.com', '$2b$10$LstoFJipoIniWxRAWL4M5eIF9FZNB6QzqNuLF5HGLpCnVuv9kl4su', 4);
+	(8, 'abcd@gmail.com', '$2b$10$LstoFJipoIniWxRAWL4M5eIF9FZNB6QzqNuLF5HGLpCnVuv9kl4su', 4),
+	(9, 'admin@gmail.com', '$2b$10$5BIL.ZViQGAAYL1wjKz.GutUlokg9b6tyCVcBDBhsBJ2g27K/R2yy', NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

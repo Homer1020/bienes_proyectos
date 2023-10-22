@@ -18,6 +18,7 @@
                 <th>Gerencia</th>
                 <th>Tipo solicitud</th>
                 <th>Fecha de solicitud</th>
+                <th>Estado de solicitud</th>
                 <th>Detalles</th>
             </tr>
         </thead>
@@ -42,7 +43,27 @@
                 <td><%= new Date(solicitud.fecha_solicitud).toLocaleDateString('es-vn', { weekday:"long", year:"numeric", month:"short", day:"numeric"}) %>
                 </td>
                 <td>
-                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detalles_solicitud_modal<%= solicitud.codigo_solicitud %>">Detalles</button>
+                    <% if(solicitud.estado_solicitud === 'Aceptado') {%>
+                        <span class="badge bg-success mb-3 text-truncate estado_solicitud_<%= solicitud.codigo_solicitud %>">
+                            Aceptado
+                        </span>
+                    <% } %>
+
+                    <% if(solicitud.estado_solicitud === 'En espera') {%>
+                        <span class="badge bg-info mb-3 text-truncate estado_solicitud_<%= solicitud.codigo_solicitud %>">
+                            En espera
+                        </span>
+                    <% } %>
+
+                    <% if(solicitud.estado_solicitud === 'Rechazado') {%>
+                        <span class="badge bg-danger mb-3 text-truncate estado_solicitud_<%= solicitud.codigo_solicitud %>">
+                            Rechazado
+                        </span>
+                    <% } %>
+                </td>
+                <td>
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#detalles_solicitud_modal<%= solicitud.codigo_solicitud %>">Detalles</button>
                 </td>
             </tr>
             <% }) %>
