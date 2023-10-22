@@ -31,7 +31,7 @@ function updateSolicitud (id, estado_id) {
         }
         if (estado_id === 3) {
           estadoElements[i].textContent = 'Aceptado'
-          estadoElements[i].classList.remove('bg-info')
+          estadoElements[i].classList.remove('bg-danger')
           estadoElements[i].classList.add('bg-success')
         }
       }
