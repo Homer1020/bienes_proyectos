@@ -60,3 +60,38 @@ exports.softDestroy = async (req, res) => {
     res.redirect('/bienes')
   }
 }
+
+exports.updateForm = async (req, res) => {
+  const { id } = req.params
+  const { result: categorias } = await db.query('SELECT * FROM categorias')
+  const { result: trabajadores } = await db.query(`
+    SELECT t.*, d.nombre AS departamento FROM trabajadores AS t
+    LEFT JOIN gerencias AS g ON t.gerencias_id = g.id
+    LEFT JOIN departamentos AS d ON g.departamentos_id = d.id
+  `)
+  const { result: sedes } = await db.query('SELECT * FROM sedes')
+  const bien = (await db.query('SELECT * FROM bienes WHERE id = ?', [id])).result?.[0]
+
+  res.render('bienes/update', {
+    bien,
+    categorias,
+    trabajadores,
+    sedes
+  })
+}
+
+exports.update = async (req, res) => {
+  const { nombre, fecha_ingreso, categorias_id, trabajadores_id, sedes_id } = req.body
+  if (!nombre || !fecha_ingreso || !categorias_id) {
+    req.flash('errores', 'Los campos nombre, fecha de ingreso, categoria son obligatorios')
+    return res.redirect('/bienes')
+  }
+  try {
+    await db.query('UPDATE bienes SET nombre=?, fecha_ingreso=?, categorias_id=?, trabajadores_id=?, sedes_id=? WHERE id = ?', [nombre, fecha_ingreso, categorias_id, trabajadores_id, sedes_id, req.params.id])
+    req.flash('messages', 'Se actualizo el bien correctamente')
+    return res.redirect('/bienes')
+  } catch (error) {
+    req.flash('errores', 'Error al actualizar el bien')
+    return res.redirect('back')
+  }
+}

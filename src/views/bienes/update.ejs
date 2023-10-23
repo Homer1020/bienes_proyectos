@@ -1,0 +1,65 @@
+<%- include('../partials/header') %>
+  <main class="container">
+    <%- include('../partials/messages') %>
+      <div class="d-flex justify-content-between align-items-center">
+        <h1 class="h5 text-uppercase my-3">Actualizar Bien <%= bien.codigo %></h1>
+        <div>
+          <a href="/bienes" class="btn btn-sm btn-primary">Regresar</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <form action="/bienes/actualizar/<%= bien.id %>" method="post" autocomplete="off">
+            <div class="mb-3">
+              <label class="form-label" for="nombre">Nombre del bien</label>
+              <input type="text" id="nombre" class="form-control" name="nombre"
+                placeholder="Computadoras, Sillas, Mesas, etc..." value="<%= bien.nombre %>">
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label" for="fecha_ingreso">Fecha de ingreso</label>
+                <input type="date" id="fecha_ingreso" class="form-control" name="fecha_ingreso"
+                  placeholder="Computadoras, Sillas, Mesas, etc..." value="<%= formatDate(bien.fecha_ingreso) %>">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="categorias_id">Categoria</label>
+                <select id="categoria_id" name="categorias_id" class="form-select select2 select2-onmodal">
+                  <!-- <option disabled selected hidden>Seleccione la categoria</option> -->
+                  <% categorias.forEach(cat=> {%>
+                    <option value="<%= cat.id %>" <%= bien.categorias_id === cat.id ? ' selected' : '' %>>
+                      <%= cat.nombre %>
+                      <%= bien.categorias_id === cat.id ? ' (Seleccionada)' : '' %>
+                    </option>
+                    <%}) %>
+                </select>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="trabajadores_id">Trabajador encargado</label>
+              <select id="trabajadores_id" name="trabajadores_id" class="form-select select2 select2-onmodal">
+                <option disabled selected hidden>Seleccione el trabajador</option>
+                <% trabajadores.forEach(tab=> {%>
+                  <option value="<%= tab.id %>" <%= bien.trabajadores_id === tab.id ? ' selected' : '' %>>
+                    <%= tab.nombre %>
+                      <%= tab.apellido %> (<%= tab.departamento %>)
+                  </option>
+                  <%}) %>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="sedes_id">Ubicacion</label>
+              <select id="sedes_id" name="sedes_id" class="form-select select2 select2-onmodal">
+                <option disabled selected hidden>Seleccione la sede</option>
+                <% sedes.forEach(sed=> {%>
+                  <option value="<%= sed.id %>" <%= bien.sedes_id === sed.id ? ' selected' : '' %>>
+                    <%= sed.nombre %>
+                  </option>
+                  <%}) %>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-success">Actualizar</button>
+          </form>
+        </div>
+      </div>
+  </main>
+  <%- include('../partials/footer') %>

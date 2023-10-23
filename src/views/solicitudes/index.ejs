@@ -1,7 +1,7 @@
 <%- include('../partials/header') %>
 <%- include('./inc/details_modal') %>
 
-<main class="container">
+<main class="container mb-5">
     <div class="container">
         <%- include('../partials/messages') %>
     </div>
@@ -13,15 +13,15 @@
         </div>
         <% } %>
     </div>
-    <table class="table">
+    <table class="table" id="solicitudes-table">
         <thead>
             <tr>
                 <th>Codigo solicitud</th>
                 <th>Codigo de bienes</th>
                 <th>Gerencia</th>
-                <th>Tipo solicitud</th>
+                <th>Tipo</th>
                 <th>Fecha de solicitud</th>
-                <th>Estado de solicitud</th>
+                <th>Estado</th>
                 <th>Detalles</th>
             </tr>
         </thead>
@@ -29,10 +29,14 @@
             <% if(solicitudes.length) {%>
             <% solicitudes.forEach(solicitud => { %>
             <tr>
-                <td><%= solicitud.codigo_solicitud %></td>
-                <td style="max-width: 300px;">
+                <td>
+                    <span class="text-truncate d-inline-block" style="width: 200px;">
+                        <%= solicitud.codigo_solicitud %>
+                    </span>
+                </td>
+                <td style="max-width: 200px;">
                     <% solicitud.bienes.forEach(codigo => {%>
-                        <div class="badge bg-dark mb-2 text-truncate" style="max-width: 150px;" title="<%= codigo %>">
+                        <div class="badge bg-dark mb-2 text-truncate" style="max-width: 200px;" title="<%= codigo %>">
                             <%= codigo %>
                         </div>
                     <%}) %>

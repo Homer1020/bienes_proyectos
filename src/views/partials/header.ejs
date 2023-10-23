@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BIENES SYSTEM</title>
   <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/css/datatables.min.css">
   <link rel="stylesheet" href="/assets/css/styles.css">
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
@@ -21,12 +22,12 @@
           <% if(user) {%>
             <% if(!user?.trabajadores_id) { %>
               <a class="nav-link" href="/bienes">Bienes</a>
+              <a href="/register" class="nav-link">Usuarios</a>
             <% } %>
             <a class="nav-link" href="/solicitudes">Solicitudes</a>
             <a href="/logout" class="nav-link">Cerrar Sesion</a>
           <% } else { %>
             <a href="/login" class="nav-link">Login</a>
-            <a href="/register" class="nav-link">Registro</a>
           <% } %>
         </div>
       </div>

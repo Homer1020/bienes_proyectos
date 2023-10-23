@@ -7,6 +7,17 @@ exports.loginForm = (req, res) => {
 
 exports.login = async (req, res) => {
   const { email, password } = req.body
+  if (!email || !password) {
+    req.flash('errores', 'Todos los campos son necesarios')
+    return res.redirect('/login')
+  }
+  const emailRegex = /\S+@\S+\.\S+/
+  console.log(email)
+  console.log(emailRegex.test(email))
+  if (!emailRegex.test(email)) {
+    req.flash('errores', 'Ingrese una direccion de correo valida')
+    return res.redirect('/login')
+  }
   const { result: { 0: user } } = await db.query('SELECT * FROM usuarios WHERE email = ? LIMIT 1', [email])
   let error = false
   if (!user) error = true

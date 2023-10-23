@@ -13,9 +13,23 @@ $(document).ready(function () {
   }
 })
 
-const alert = window.bootstrap.Alert.getOrCreateInstance('.message-app')
-if (alert) {
-  setTimeout(() => {
-    alert.close()
-  }, 3000)
-}
+Array.from(document.querySelectorAll('.message-app')).forEach(el => {
+  const alert = window.bootstrap.Alert.getOrCreateInstance(el)
+  if (alert) {
+    setTimeout(() => {
+      alert.close()
+    }, 3000)
+  }
+})
+
+$(document).ready(function () {
+  $('#bienes-table').DataTable({
+    ordering: false,
+    responsive: true
+  })
+
+  $('#solicitudes-table').DataTable({
+    responsive: true,
+    ordering: false
+  })
+})

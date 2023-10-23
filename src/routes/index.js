@@ -13,6 +13,8 @@ router.get('/bienes', bienesController.index)
 router.post('/bienes/nuevo', bienesController.store)
 router.get('/bienes/:id', bienesController.show)
 router.post('/bienes/delete/:id', bienesController.softDestroy)
+router.get('/bienes/actualizar/:id', bienesController.updateForm)
+router.post('/bienes/actualizar/:id', bienesController.update)
 
 router.get('/solicitudes', solicitudesController.index)
 router.get('/solicitudes/formulario', solicitudesController.create)

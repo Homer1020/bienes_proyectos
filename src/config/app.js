@@ -29,6 +29,19 @@ app.use((req, res, next) => {
   res.locals.messages = req.flash('messages')
   res.locals.errores = req.flash('errores')
   res.locals.user = req.session.user
+  function formatDate (date) {
+    const day = date.getDate()
+    const month = date.getMonth() + 1 // JavaScript months are zero-indexed
+    const year = date.getFullYear()
+
+    // Add leading zeros to the day and month if necessary
+    const dayStr = day < 10 ? `0${day}` : `${day}`
+    const monthStr = month < 10 ? `0${month}` : `${month}`
+
+    // Return the formatted date string
+    return `${year}-${monthStr}-${dayStr}`
+  }
+  res.locals.formatDate = formatDate
   return next()
 })
 app.use(bodyParser.urlencoded({ extended: false }))

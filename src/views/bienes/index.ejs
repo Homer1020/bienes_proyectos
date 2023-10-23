@@ -9,7 +9,7 @@
                 Bien</button>
         </div>
     </div>
-    <table class="table">
+    <table class="table" id="bienes-table">
         <thead>
             <tr>
                 <th>Nombre</th>
@@ -27,7 +27,11 @@
             <% bienes.forEach(bien => {%>
             <tr>
                 <td><%= bien.nombre %></td>
-                <td><%= bien.codigo %></td>
+                <td>
+                    <span class="text-truncate d-inline-block" style="width: 200px;">
+                        <%= bien.codigo %>
+                    </span>
+                </td>
                 <td>
                     <span class="badge bg-secondary">
                         <%= bien.categoria %>
@@ -40,9 +44,10 @@
                     <%= new Date(bien.fecha_ingreso).toLocaleDateString('es-vn', { weekday:"long", year:"numeric", month:"short", day:"numeric"}) %>
                 </td>
                 <td>
-                    <form action="/bienes/delete/<%= bien.id %>" method="post">
+                    <form action="/bienes/delete/<%= bien.id %>" method="post" class="d-inline-block">
                         <button type="submit" class="btn btn-danger btn-sm">Elimniar</button>
                     </form>
+                    <a href="/bienes/actualizar/<%= bien.id %>" class="btn btn-warning btn-sm">Actualizar / Ver</a>
                 </td>
             </tr>
             <%}) %>
