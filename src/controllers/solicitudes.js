@@ -40,7 +40,7 @@ exports.index = async (req, res) => {
   ${req?.session?.user?.trabajadores_id ? 'WHERE s.trabajadores_id = ' + req?.session?.user?.trabajadores_id : ''}
   ORDER BY s.fecha_solicitud DESC
   `)
-
+  console.log(solicitudes.estado_reparacion)
   const agrupado = solicitudes.reduce((acc, solicitud) => {
     const codigo_solicitud = solicitud.codigo_solicitud
     const bienes = acc.find(grupo => grupo.codigo_solicitud === codigo_solicitud)
@@ -88,7 +88,6 @@ exports.create = async (req, res) => {
   const query_bienes = await db.query('SELECT * FROM bienes WHERE estado = 1')
   const query_sedes = await db.query('SELECT * FROM sedes')
   const query_trabajadores = await db.query('SELECT * FROM trabajadores')
-
   return res.render('solicitudes/create', {
     tipo_solicitud,
     bienes: query_bienes.result,
@@ -107,41 +106,77 @@ exports.store = async (req, res) => {
 
     const solicitud = await db.query('INSERT INTO solicitudes(codigo_solicitud, estados_solicitud_id, trabajadores_id, gerencias_id, solicitudes_tipo) VALUES (?, ?, ?, ?, ?)', [codigo_solicitud, 1, trabajador[0].trabajadores_id, trabajador[0].gerencias_id, solicitudes_tipo])
 
-    for (const bien of bienes) {
-      await db.query('INSERT INTO bienes_has_solicitudes(bienes_id, solicitudes_id) VALUES (?, ?)', [bien, solicitud.result.insertId])
+    if (bienes.length !== 0) {
+      for (const bien of bienes) {
+        await db.query('INSERT INTO bienes_has_solicitudes(bienes_id, solicitudes_id) VALUES (?, ?)', [bien, solicitud.result.insertId])
+      }
+    } else {
+      throw new Error('Debe de seleccionarse al menos un bien para insertar')
     }
 
     switch (solicitudes_tipo) {
       case '1': {
         const { trabajador_id } = req.body
-        await db.query('INSERT INTO asignaciones(trabajadores_id, solicitud_id) VALUES (?, ?)', [trabajador_id, solicitud.result.insertId])
+        if (trabajador_id !== '0') {
+          await db.query('INSERT INTO asignaciones(trabajadores_id, solicitud_id) VALUES (?, ?)', [trabajador_id, solicitud.result.insertId])
+          req.flash('messages', 'La solicitud de asignación se ha hecho con exito y se encuentra en espera de ser aceptada')
+        } else {
+          throw new Error('Algo ha salido mal con la solicitud de asignación. Asegurese de haber insertado los datos de forma correcta.')
+        }
       }
         break
 
       case '2': {
         const { sedes_id } = req.body
-        db.query('INSERT INTO traslados(solicitudes_id, sedes_id) VALUES (?, ?)', [solicitud.result.insertId, sedes_id])
+        if (sedes_id !== '0') {
+          db.query('INSERT INTO traslados(solicitudes_id, sedes_id) VALUES (?, ?)', [solicitud.result.insertId, sedes_id])
+          req.flash('messages', 'La solicitud de traslado se ha hecho con exito y se encuentra en espera de ser aceptada')
+        } else {
+          throw new Error('Algo ha salido mal con la solicitud de traslado. Asegurese de haber insertado los datos de forma correcta.')
+        }
       }
         break
 
       case '3': {
         const { motivo_reparacion } = req.body
-        await db.query('INSERT INTO reparaciones(motivo, estado, solicitud_id) VALUES (?, ?, ?)', [motivo_reparacion, 0, solicitud.result.insertId])
+        if (typeof (motivo_reparacion) === 'string' && motivo_reparacion !== null) {
+          await db.query('INSERT INTO reparaciones(motivo, estado, solicitud_id) VALUES (?, ?, ?)', [motivo_reparacion, 0, solicitud.result.insertId])
+          req.flash('messages', 'La solicitud de reparación se ha hecho con exito y se encuentra en espera de ser aceptada')
+        } else {
+          throw new Error('Algo ha salido mal con la solicitud de translado. Asegurese de haber insertado los datos de forma correcta.')
+        }
       }
         break
     }
-    res.redirect('/solicitudes')
   } catch (err) {
     console.log(err)
+    req.flash('errores', err.message)
   }
+  res.redirect('/solicitudes')
 }
 
 exports.update = async (req, res) => {
   try {
-    const { id, estado_id } = req.body
+    const { id, estado_id, tipo_solicitud } = req.body
+    console.log(req.body)
     await db.query('UPDATE solicitudes SET estados_solicitud_id = ? WHERE codigo_solicitud = ?', [estado_id, id])
-    res.json({ succes: true })
+
+    if (tipo_solicitud === 'Asignacion') {
+      const trabajador_asignado_id = req.body.ta_id
+      const { bien } = req.body
+
+      await db.query('UPDATE bienes SET trabajadores_id = ? WHERE codigo = ?', [trabajador_asignado_id, bien])
+    }
+
+    if (estado_id === 2) {
+      req.flash('messages', 'Se ha rechazado la solicitud con éxito')
+    }
+    if (estado_id === 3) {
+      req.flash('messages', 'Se ha aceptado la solicitud con éxito')
+    }
+    res.json({ message: 'true' })
   } catch (err) {
+    req.flash('errores', 'Ha habido un problema al tratar de actualizar el estado')
     console.log(err)
   }
 }

@@ -1,25 +1,40 @@
 <%- include('../partials/header') %>
 <main class="container">
+    <div class="container">
+        <%- include('../partials/messages') %>
+    </div>
     <div class="d-flex justify-content-between align-items-center">
         <h1 class="h5 text-uppercase my-3">Realizar nueva solicitud</h1>
         <div>
-            <a href="/solicitudes" class="btn btn-sm btn-primary">Listado de bienes</a>
+            <a href="/solicitudes" class="btn btn-sm btn-primary">Listado de solicitudes</a>
         </div>
     </div>
 
     <div class="mb-3">
         <div class="dropdown">
+            <h4>Tipo de solicitud</h4>
             <button class="btn btn-secondary btn-small dropdown-toggle" type="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
-                Tipo de solicitud
+                <% if (tipo_solicitud === '1') {%> Asignación <% } %>
+                <% if (tipo_solicitud === '2') {%> Traslado <% } %>
+                <% if (tipo_solicitud === '3') {%> Reparación <% } %>
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="?tipo=1"
-                        <%= tipo_solicitud === '1' ? 'selected' : '' %>>Asignación</a></li>
-                <li><a class="dropdown-item" href="?tipo=2" <%= tipo_solicitud === '2' ? 'selected' : '' %>>Traslado</a>
+                <li>
+                    <a class="dropdown-item <%= tipo_solicitud === '1' ? 'disabled' : '' %>" href="?tipo=1">
+                        Asignación
+                    </a>
                 </li>
-                <li><a class="dropdown-item" href="?tipo=3"
-                        <%= tipo_solicitud === '3' ? 'selected' : '' %>>Reparación</a></li>
+                <li>
+                    <a class="dropdown-item <%= tipo_solicitud === '2' ? 'disabled' : '' %>" href="?tipo=2">
+                        Traslado
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item <%= tipo_solicitud === '3' ? 'disabled' : '' %>" href="?tipo=3">
+                        Reparación
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

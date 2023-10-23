@@ -2,6 +2,9 @@
 <%- include('./inc/details_modal') %>
 
 <main class="container">
+    <div class="container">
+        <%- include('../partials/messages') %>
+    </div>
     <div class="d-flex justify-content-between align-items-center">
         <h1 class="h5 text-uppercase my-3">Solicitudes</h1>
         <% if(user?.trabajadores_id) { %>
@@ -29,9 +32,9 @@
                 <td><%= solicitud.codigo_solicitud %></td>
                 <td style="max-width: 300px;">
                     <% solicitud.bienes.forEach(codigo => {%>
-                    <div class="badge bg-dark mb-2 text-truncate" style="max-width: 150px;" title="<%= codigo %>">
-                        <%= codigo %>
-                    </div>
+                        <div class="badge bg-dark mb-2 text-truncate" style="max-width: 150px;" title="<%= codigo %>">
+                            <%= codigo %>
+                        </div>
                     <%}) %>
                 </td>
                 <td><%= solicitud.gerencia %></td>
@@ -40,7 +43,8 @@
                         <%= solicitud.tipo_solicitud %>
                     </span>
                 </td>
-                <td><%= new Date(solicitud.fecha_solicitud).toLocaleDateString('es-vn', { weekday:"long", year:"numeric", month:"short", day:"numeric"}) %>
+                <td>
+                    <%= new Date(solicitud.fecha_solicitud).toLocaleDateString('es-vn', { weekday:"long", year:"numeric", month:"short", day:"numeric"}) %>
                 </td>
                 <td>
                     <% if(solicitud.estado_solicitud === 'Aceptado') {%>
@@ -62,8 +66,9 @@
                     <% } %>
                 </td>
                 <td>
-                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#detalles_solicitud_modal<%= solicitud.codigo_solicitud %>">Detalles</button>
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detalles_solicitud_modal<%= solicitud.codigo_solicitud %>">
+                        Detalles
+                    </button>
                 </td>
             </tr>
             <% }) %>

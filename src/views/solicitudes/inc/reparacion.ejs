@@ -3,7 +3,7 @@
 
   <div class="mb-3">
     <label for="bienes_id" class="form-label">Bienes</label>
-    <select name="bienes_id[]" id="bienes_id" class="form-select select2" multiple="multiple">
+    <select name="bienes_id[]" id="bienes_id" class="form-select select2" multiple="multiple" required>
       <option value="" disabled>Seleccione el bien a reparar</option>
       <% bienes.forEach(bien => {%>
       <option value="<%= bien.id %>"><%= bien.codigo %> - <%= bien.nombre %></option>

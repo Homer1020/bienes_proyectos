@@ -1,24 +1,28 @@
 document.querySelectorAll('.btn-success').forEach(button => {
   button.addEventListener('click', function () {
     const id = this.getAttribute('data-id')
-    updateSolicitud(id, 3)
+    const tipo_solicitud = this.getAttribute('data-tipo')
+    const ta_id = this.getAttribute('data-ta-id')
+    const bien = this.getAttribute('data-bienes')
+    updateSolicitud(id, 3, tipo_solicitud, ta_id, bien)
   })
 })
 
 document.querySelectorAll('.btn-danger').forEach(button => {
   button.addEventListener('click', function () {
     const id = this.getAttribute('data-id')
-    updateSolicitud(id, 2)
+    const tipo_solicitud = this.getAttribute('data-tipo')
+    updateSolicitud(id, 2, tipo_solicitud)
   })
 })
 
-function updateSolicitud (id, estado_id) {
+function updateSolicitud (id, estado_id, tipo_solicitud, ta_id, bien) {
   fetch('/solicitudes/update_estado', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ id, estado_id })
+    body: JSON.stringify({ id, estado_id, tipo_solicitud, ta_id, bien })
   })
     .then(response => response.json())
     .then(data => {
@@ -27,12 +31,13 @@ function updateSolicitud (id, estado_id) {
         if (estado_id === 2) {
           estadoElements[i].textContent = 'Rechazado'
           estadoElements[i].classList.remove('bg-info')
+          estadoElements[i].classList.remove('bg-success')
           estadoElements[i].classList.add('bg-danger')
         }
         if (estado_id === 3) {
           estadoElements[i].textContent = 'Aceptado'
-          estadoElements[i].classList.remove('bg-danger')
           estadoElements[i].classList.remove('bg-info')
+          estadoElements[i].classList.remove('bg-danger')
           estadoElements[i].classList.add('bg-success')
         }
       }
