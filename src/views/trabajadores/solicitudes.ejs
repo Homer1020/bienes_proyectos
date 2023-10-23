@@ -1,0 +1,78 @@
+<%- include('../partials/header') %>
+<%- include('../solicitudes/inc/details_modal') %>
+
+<main class="container mb-5">
+    <div class="container">
+        <%- include('../partials/messages') %>
+    </div>
+    <div class="d-flex justify-content-between align-items-center">
+      <h1 class="h5 text-uppercase my-3">Solicitudes <%= `${ trabajador.nombre } ${ trabajador.apellido }` %></h1>
+    </div>
+    <table class="table" id="solicitudes-table">
+        <thead>
+            <tr>
+                <th>Codigo solicitud</th>
+                <th>Codigo de bienes</th>
+                <th>Gerencia</th>
+                <th>Tipo</th>
+                <th>Fecha de solicitud</th>
+                <th>Estado</th>
+                <th>Detalles</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if(solicitudes.length) {%>
+            <% solicitudes.forEach(solicitud => { %>
+            <tr>
+                <td>
+                    <span class="text-truncate d-inline-block" style="width: 200px;">
+                        <%= solicitud.codigo_solicitud %>
+                    </span>
+                </td>
+                <td style="max-width: 200px;">
+                    <% solicitud.bienes.forEach(codigo => {%>
+                        <div class="badge bg-dark mb-2 text-truncate" style="max-width: 200px;" title="<%= codigo %>">
+                            <%= codigo %>
+                        </div>
+                    <%}) %>
+                </td>
+                <td><%= solicitud.gerencia %></td>
+                <td>
+                    <span class="badge bg-success">
+                        <%= solicitud.tipo_solicitud %>
+                    </span>
+                </td>
+                <td>
+                    <%= new Date(solicitud.fecha_solicitud).toLocaleDateString('es-vn', { weekday:"long", year:"numeric", month:"short", day:"numeric"}) %>
+                </td>
+                <td>
+                    <% if(solicitud.estado_solicitud === 'Aceptado') {%>
+                        <span class="badge bg-success mb-3 text-truncate estado_solicitud_<%= solicitud.codigo_solicitud %>">
+                            Aceptado
+                        </span>
+                    <% } %>
+
+                    <% if(solicitud.estado_solicitud === 'En espera') {%>
+                        <span class="badge bg-info mb-3 text-truncate estado_solicitud_<%= solicitud.codigo_solicitud %>">
+                            En espera
+                        </span>
+                    <% } %>
+
+                    <% if(solicitud.estado_solicitud === 'Rechazado') {%>
+                        <span class="badge bg-danger mb-3 text-truncate estado_solicitud_<%= solicitud.codigo_solicitud %>">
+                            Rechazado
+                        </span>
+                    <% } %>
+                </td>
+                <td>
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detalles_solicitud_modal<%= solicitud.codigo_solicitud %>">
+                        Detalles
+                    </button>
+                </td>
+            </tr>
+            <% }) %>
+            <% } %>
+        </tbody>
+    </table>
+</main>
+<%- include('../partials/footer') %>

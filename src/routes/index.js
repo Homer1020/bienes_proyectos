@@ -27,5 +27,7 @@ router.post('/login', authController.login)
 router.get('/register', authController.registerForm)
 router.post('/register', authController.register)
 router.get('/logout', authController.logout)
+router.get('/trabajadores', authController.trabajadoresIndex)
+router.get('/trabajadores/:id/solicitudes', authController.solicitudesTrabajador)
 
 module.exports = router

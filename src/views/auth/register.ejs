@@ -1,20 +1,49 @@
 <%- include('../partials/header') %>
 <main class="container align-self-center">
   <div class="row justify-content-center">
-    <div class="col-md-5">
+    <div class="col-md-6">
       <div class="card shadow">
         <div class="card-body">
           <form action="/register" method="post">
-            <h2 class="text-uppercase fs-5 text-center mb-5 mt-4">Registrar Usuario</h2>
-            <div class="form-floating mb-3">
-              <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
-              <label for="floatingInput">Email address</label>
+            <h2 class="text-uppercase fs-5 text-center mb-5 mt-4">Registrar Trabajador</h2>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="nombre" class="form-control" id="nombre" placeholder="Juanito">
+              </div>
+              <div class="col-md-6">
+                <label for="apellido" class="form-label">Apellido</label>
+                <input type="apellido" class="form-control" id="apellido" placeholder="Juanito">
+              </div>
             </div>
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
-              <label for="floatingPassword">Password</label>
+            <div class="mb-3">
+              <label for="gerencias_id" class="form-label">Gerencia</label>
+              <select id="gerencias_id" name="gerencias_id" class="form-select select2">
+                <!-- <option disabled selected hidden>Seleccione la categoria</option> -->
+                <% gerencias.forEach(ge => {%>
+                  <option value="<%= ge.id %>"><%= ge.nombre %> (<%= ge.departamento %>)</option>
+                <%}) %>
+              </select>
             </div>
-            <input type="submit" value="Registrar Usuario" class="btn btn-success btn-lg">
+            <div class="mb-3">
+              <label for="cargos_id" class="form-label">Cargo</label>
+              <select id="cargos_id" name="cargos_id" class="form-select select2">
+                <!-- <option disabled selected hidden>Seleccione la categoria</option> -->
+                <% cargos.forEach(ca => {%>
+                  <option value="<%= ca.id %>"><%= ca.nombre %></option>
+                <%}) %>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo</label>
+              <input type="email" class="form-control" id="email" placeholder="correo@correo.com">
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="password">
+            </div>
+            <input type="submit" value="Registrar" class="btn btn-success">
+            <a href="/trabajadores" class="btn btn-outline-success">Cancelar</a>
           </form>
         </div>
       </div>
