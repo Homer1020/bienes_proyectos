@@ -16,6 +16,14 @@ document.querySelectorAll('.btn-danger').forEach(button => {
   })
 })
 
+document.querySelectorAll('.btn[data-state]').forEach(button => {
+  button.addEventListener('click', function () {
+    const id = this.getAttribute('data-id')
+    const estado_reparacion = this.getAttribute('data-state')
+    updateSolicitudReparacion(id, estado_reparacion)
+  })
+})
+
 function updateSolicitud (id, estado_id, tipo_solicitud, ta_id, bien) {
   fetch('/solicitudes/update_estado', {
     method: 'POST',
@@ -44,5 +52,39 @@ function updateSolicitud (id, estado_id, tipo_solicitud, ta_id, bien) {
     })
     .catch((error) => {
       console.error('Error:', error)
+    })
+}
+
+function updateSolicitudReparacion (id, estado_reparacion) {
+  fetch('/solicitudes/update_reparacion', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ id, estado_reparacion })
+  })
+    .then(response => response.json())
+    .then(data => {
+      try {
+        const reparacion_elemento = document.querySelector(`#estado_reparacion_${id}`)
+
+        if (estado_reparacion === '1') {
+          reparacion_elemento.setAttribute('data-state', 0)
+          reparacion_elemento.textContent = 'En curso'
+          reparacion_elemento.classList.remove('bg-success')
+          reparacion_elemento.classList.add('bg-info')
+        }
+        if (estado_reparacion === '0') {
+          reparacion_elemento.setAttribute('data-state', 1)
+          reparacion_elemento.textContent = 'Culminada'
+          reparacion_elemento.classList.remove('bg-info')
+          reparacion_elemento.classList.add('bg-success')
+        }
+      } catch (error) {
+
+      }
+    })
+    .catch((error) => {
+      console.log('Error:', error)
     })
 }

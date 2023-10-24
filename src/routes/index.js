@@ -10,6 +10,7 @@ router.get('/', (req, res) => {
   return res.render('home')
 })
 
+// Rutas de Bienes
 router.get('/bienes', isAuth, isNotTrabajador, bienesController.index)
 router.post('/bienes/nuevo', isAuth, isNotTrabajador, bienesController.store)
 router.get('/bienes/:id', isAuth, isNotTrabajador, bienesController.show)
@@ -17,12 +18,15 @@ router.post('/bienes/delete/:id', isAuth, isNotTrabajador, bienesController.soft
 router.get('/bienes/actualizar/:id', isAuth, isNotTrabajador, bienesController.updateForm)
 router.post('/bienes/actualizar/:id', isAuth, isNotTrabajador, bienesController.update)
 
+// Rutas de Solicitudes
 router.get('/solicitudes', isAuth, solicitudesController.index)
 router.get('/solicitudes/formulario', isAuth, isTrabajador, solicitudesController.create)
 router.get('/solicitudes/:id', isAuth, isTrabajador, solicitudesController.show)
 router.post('/solicitudes/formulario', isAuth, isTrabajador, solicitudesController.store)
 router.post('/solicitudes/update_estado', isAuth, isNotTrabajador, solicitudesController.update)
+router.post('/solicitudes/update_reparacion', isAuth, isNotTrabajador, solicitudesController.update_reparacion)
 
+// Rutas de Login y Registro
 router.get('/login', isGuest, authController.loginForm)
 router.post('/login', isGuest, authController.login)
 

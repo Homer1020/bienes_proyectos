@@ -178,3 +178,21 @@ exports.update = async (req, res) => {
     console.log(err)
   }
 }
+
+exports.update_reparacion = async (req, res) => {
+  try {
+    const { id, estado_reparacion } = req.body
+    const query_id_solicitud = await db.query('SELECT id FROM solicitudes WHERE codigo_solicitud = ?', [id])
+
+    if (estado_reparacion === '0') {
+      await db.query('UPDATE reparaciones SET estado = ? WHERE solicitud_id = ?', [1, query_id_solicitud.result[0].id])
+    }
+
+    if (estado_reparacion === '1') {
+      await db.query('UPDATE reparaciones SET estado = ? WHERE solicitud_id = ?', [0, query_id_solicitud.result[0].id])
+    }
+    res.json({ message: 'Exito' })
+  } catch (err) {
+    console.log(err)
+  }
+}

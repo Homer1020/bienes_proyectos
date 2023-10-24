@@ -77,8 +77,20 @@
 
           <div class="mb-3">
             <h3 class="h6 text-uppercase">Estado de la Reparacion</h3>
-            
-            <button class="btn btn-info badge" data-state="<%= solicitud.motivo_reparacion %>"><%= solicitud.estado_reparacion === 0 ? 'En curso' : 'Culminada' %></button>
+            <% if(!user?.trabajadores_id) { %>
+              <button class="
+                btn badge
+                <% if(solicitud.estado_reparacion === 0) {%>
+                  bg-info
+                <% } %> 
+                <% if(solicitud.estado_reparacion === 1) {%>
+                  bg-success
+                <% } %> 
+              " 
+              data-id="<%= solicitud.codigo_solicitud %>" id="estado_reparacion_<%= solicitud.codigo_solicitud %>" data-state="<%= solicitud.estado_reparacion %>"><%= solicitud.estado_reparacion === 0 ? 'En curso' : 'Culminada' %></button>
+            <% } else { %>
+              <p><%= solicitud.estado_reparacion === 0 ? 'En curso' : 'Culminada' %></p>
+            <% } %>
           </div>
         <% } %>
 
