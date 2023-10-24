@@ -75,9 +75,10 @@
             <p><%= solicitud.motivo_reparacion %></p>
           </div>
 
-          <div>
+          <div class="mb-3">
             <h3 class="h6 text-uppercase">Estado de la Reparacion</h3>
-            <p><%= solicitud.estado_reparacion === 0 ? 'En curso' : 'Culminada' %></p>
+            
+            <button class="btn btn-info badge" data-state="<%= solicitud.motivo_reparacion %>"><%= solicitud.estado_reparacion === 0 ? 'En curso' : 'Culminada' %></button>
           </div>
         <% } %>
 
