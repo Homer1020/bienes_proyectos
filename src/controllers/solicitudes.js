@@ -40,7 +40,6 @@ exports.index = async (req, res) => {
   ${req?.session?.user?.trabajadores_id ? 'WHERE s.trabajadores_id = ' + req?.session?.user?.trabajadores_id : ''}
   ORDER BY s.fecha_solicitud DESC
   `)
-  console.log(solicitudes.estado_reparacion)
   const agrupado = solicitudes.reduce((acc, solicitud) => {
     const codigo_solicitud = solicitud.codigo_solicitud
     const bienes = acc.find(grupo => grupo.codigo_solicitud === codigo_solicitud)
@@ -158,7 +157,6 @@ exports.store = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const { id, estado_id, tipo_solicitud } = req.body
-    console.log(req.body)
     await db.query('UPDATE solicitudes SET estados_solicitud_id = ? WHERE codigo_solicitud = ?', [estado_id, id])
 
     if (tipo_solicitud === 'Asignacion') {
