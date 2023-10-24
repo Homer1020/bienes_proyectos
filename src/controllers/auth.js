@@ -33,7 +33,7 @@ exports.login = async (req, res) => {
 exports.registerForm = async (req, res) => {
   const { result: cargos } = await db.query('SELECT * FROM cargos')
   const { result: gerencias } = await db.query('SELECT g.*, d.nombre AS departamento FROM gerencias AS g LEFT JOIN departamentos AS d ON g.departamentos_id = d.id')
-  console.log(gerencias)
+
   return res.render('auth/register', {
     cargos,
     gerencias
@@ -42,19 +42,23 @@ exports.registerForm = async (req, res) => {
 
 exports.register = async (req, res) => {
   try {
-    const { email, password } = req.body
+    const { nombre, apellido, email, password, gerencias_id, cargos_id } = req.body
     const saltRounds = 10
     const salt = bcrypt.genSaltSync(saltRounds)
     const hash = bcrypt.hashSync(password, salt)
 
-    const { result } = await db.query('INSERT INTO usuarios (email, password) VALUES (?, ?)', [email, hash])
+    await db.query('INSERT INTO trabajadores (nombre, apellido, gerencias_id, cargos_id) VALUES (?, ?, ?, ?)', [nombre, apellido, gerencias_id, cargos_id])
+
+    const id_new_trabajador = (await db.query('SELECT id FROM trabajadores WHERE nombre = ? AND apellido = ?', [nombre, apellido])).result
+
+    const { result } = await db.query('INSERT INTO usuarios (email, password, trabajadores_id) VALUES (?, ?, ?)', [email, hash, id_new_trabajador[0].id])
+
     if (!result.affectedRows) {
       req.flash('errores', 'Error al agregar el usuario')
       return res.redirect('/register')
     }
-    req.flash('messages', 'Bienvenido')
-    req.session.user = { email }
-    return res.redirect('/')
+    req.flash('messages', 'Trabajador registrado exitosamente')
+    return res.redirect('/register')
   } catch (err) {
     console.log(err)
     req.flash('errores', 'Error al agregar el usuario')

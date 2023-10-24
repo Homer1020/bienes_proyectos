@@ -1,5 +1,8 @@
 <%- include('../partials/header') %>
 <main class="container align-self-center">
+  <div class="container">
+    <%- include('../partials/messages') %>
+  </div>
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card shadow">
@@ -9,11 +12,11 @@
             <div class="row mb-3">
               <div class="col-md-6">
                 <label for="nombre" class="form-label">Nombre</label>
-                <input type="nombre" class="form-control" id="nombre" placeholder="Juanito">
+                <input type="nombre" class="form-control" id="nombre" placeholder="Juanito" name="nombre">
               </div>
               <div class="col-md-6">
                 <label for="apellido" class="form-label">Apellido</label>
-                <input type="apellido" class="form-control" id="apellido" placeholder="Juanito">
+                <input type="apellido" class="form-control" id="apellido" placeholder="Juanito" name="apellido">
               </div>
             </div>
             <div class="mb-3">
@@ -36,11 +39,11 @@
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Correo</label>
-              <input type="email" class="form-control" id="email" placeholder="correo@correo.com">
+              <input type="email" class="form-control" id="email" name="email" placeholder="correo@correo.com">
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="password">
+              <input type="password" class="form-control" id="password" name="password">
             </div>
             <input type="submit" value="Registrar" class="btn btn-success">
             <a href="/trabajadores" class="btn btn-outline-success">Cancelar</a>
