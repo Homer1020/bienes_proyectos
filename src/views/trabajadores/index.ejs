@@ -15,7 +15,6 @@
                 <th>Departamento</th>
                 <th>Gerencia</th>
                 <th>Cargo</th>
-                <th>Solicitudes</th>
             </tr>
         </thead>
         <tbody>
@@ -26,9 +25,6 @@
               <td><%= t.departamento %></td>
               <td><%= t.gerencia %></td>
               <td><%= t.cargo %></td>
-              <td>
-                <a href="/trabajadores/<%= t.id %>/solicitudes" class="btn btn-info btn-sm">Solicitudes</a>
-              </td>
             </tr>
           <%}) %>
         </tbody>

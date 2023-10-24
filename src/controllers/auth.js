@@ -12,7 +12,6 @@ exports.login = async (req, res) => {
     return res.redirect('/login')
   }
   const emailRegex = /\S+@\S+\.\S+/
-
   if (!emailRegex.test(email)) {
     req.flash('errores', 'Ingrese una direccion de correo valida')
     return res.redirect('/login')
@@ -77,7 +76,6 @@ exports.trabajadoresIndex = async (req, res) => {
     INNER JOIN cargos AS c ON c.id = t.cargos_id
     INNER JOIN departamentos AS d ON d.id = g.departamentos_id
   `)
-  console.log(trabajadores)
   return res.render('trabajadores/index', {
     trabajadores
   })
@@ -118,7 +116,6 @@ exports.solicitudesTrabajador = async (req, res) => {
   WHERE t.id = ${req.params.id}
   ORDER BY s.fecha_solicitud DESC
   `)
-
   const agrupado = solicitudes.reduce((acc, solicitud) => {
     const codigo_solicitud = solicitud.codigo_solicitud
     const bienes = acc.find(grupo => grupo.codigo_solicitud === codigo_solicitud)
