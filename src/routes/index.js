@@ -21,7 +21,7 @@ router.get('/solicitudes', isAuth, solicitudesController.index)
 router.get('/solicitudes/formulario', isAuth, isTrabajador, solicitudesController.create)
 router.get('/solicitudes/:id', isAuth, isTrabajador, solicitudesController.show)
 router.post('/solicitudes/formulario', isAuth, isTrabajador, solicitudesController.store)
-router.post('/solicitudes/update_estado', isAuth, isTrabajador, solicitudesController.update)
+router.post('/solicitudes/update_estado', isAuth, isNotTrabajador, solicitudesController.update)
 
 router.get('/login', isGuest, authController.loginForm)
 router.post('/login', isGuest, authController.login)
