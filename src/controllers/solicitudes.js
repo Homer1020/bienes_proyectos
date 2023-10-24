@@ -105,12 +105,13 @@ exports.store = async (req, res) => {
 
     const solicitud = await db.query('INSERT INTO solicitudes(codigo_solicitud, estados_solicitud_id, trabajadores_id, gerencias_id, solicitudes_tipo) VALUES (?, ?, ?, ?, ?)', [codigo_solicitud, 1, trabajador[0].trabajadores_id, trabajador[0].gerencias_id, solicitudes_tipo])
 
-    if (bienes.length !== 0) {
-      for (const bien of bienes) {
+    if (Array.isArray(bienes)) {
+      bienes.forEach(async bien => {
         await db.query('INSERT INTO bienes_has_solicitudes(bienes_id, solicitudes_id) VALUES (?, ?)', [bien, solicitud.result.insertId])
-      }
-    } else {
-      throw new Error('Debe de seleccionarse al menos un bien para insertar')
+      })
+    }
+    if (typeof (bienes) === 'string') {
+      await db.query('INSERT INTO bienes_has_solicitudes(bienes_id, solicitudes_id) VALUES (?, ?)', [bienes, solicitud.result.insertId])
     }
 
     switch (solicitudes_tipo) {
@@ -162,8 +163,11 @@ exports.update = async (req, res) => {
     if (tipo_solicitud === 'Asignacion') {
       const trabajador_asignado_id = req.body.ta_id
       const { bien } = req.body
+      const array_bienes = bien.split(',')
 
-      await db.query('UPDATE bienes SET trabajadores_id = ? WHERE codigo = ?', [trabajador_asignado_id, bien])
+      array_bienes.forEach(async bien => {
+        await db.query('UPDATE bienes SET trabajadores_id = ? WHERE codigo = ?', [trabajador_asignado_id, bien])
+      })
     }
 
     if (estado_id === 2) {
